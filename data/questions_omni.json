@@ -1,0 +1,242 @@
+[
+  {
+    "time": "[0:00:00-0:01:00]",
+    "questions": [
+      {
+        "task_type": "Emotion Recognition",
+        "question": "What is the current emotion of the man wearing glasses of the video, and what caused his emotional changes?",
+        "time_stamp": "00:00:53",
+        "answer": "A",
+        "options": [
+          "A. he is angry because he finds the man in the black suit unfriendly.",
+          "B. he is happy because he is meeting his friend.",
+          "C. he is relaxing because he is talking to his friend.",
+          "D. he is angry because the man in the black suit says he wants to buy all his stock."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "movie",
+    "video_path": "./videos/sample_42_Emotion_Recognition.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Misleading Context Understanding",
+        "question": "What's on the table now?",
+        "time_stamp": "00:00:29",
+        "answer": "B",
+        "options": [
+          "A. There is a pairs of hands below, and three back facing playing cards in the middle of each hand; there are also playing cards above them.",
+          "B. There is a pairs of hands below, his left hand holding the 3 of clubs, the 8 of spades, the 2 of clubs, the 10 of spades, the ace of spades and the queen of hearts; there are also three back facing playing cards on the table.",
+          "C. There is a pairs of hands below, and three more back facing playing cards between the two hands.",
+          "D. There is a pairs of hands below with three back facing cards between them; there is a hand above with playing cards pressed underneath, and '6-' is written next to these playing cards."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "online_tutorials",
+    "video_path": "./videos/sample_11_Misleading_Context_Understanding.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Source Discrimination",
+        "question": "Who just said 'Do you want to carry the hammer with you?'?",
+        "time_stamp": "00:00:26",
+        "answer": "A",
+        "options": [
+          "A. A dark-haired male wearing a black suit, white shirt and black tie.",
+          "B. A male with brown hair wearing a black suit with a black shirt with a V-neck collar.",
+          "C. A blonde woman wearing a sleeveless black dress with a white striped hemline and black stockings.",
+          "D. A brown-haired male wearing a brown suit with a white shirt, red tie, and brown-rimmed sunglasses."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "talk_show",
+    "video_path": "./videos/sample_26_Source_Discrimination.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Scene Understanding",
+        "question": "Please describe the scene that just occurred in the video.",
+        "time_stamp": "00:00:49",
+        "answer": "D",
+        "options": [
+          "A. A pangolin uses its sense of smell to find food, and the narrator says, 'This insect-eating prehistoric manmal has walked panet Earth for 80 million years.'.",
+          "B. A pangolin uses its sharp claws to pick away at the dirt, and the narrator says, 'its powerful claws have evolved to tear open termite mounds.'.",
+          "C. A pangolin searches for food in a wet and bare bamboo forest, and the narrator says, 'In Mandarin, Pangolin means an animal that can dig its way out of the mountains.'.",
+          "D. A pangolin uses its eyes to look into the mouth of a cave to see if there is any food. The narrator says: 'A pangolin can consume 70 million insects a year.'."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "natural_documentary",
+    "video_path": "./videos/sample_12_Scene_Understanding_1-25.mp4"
+  },
+  {
+    "time": "[0:00:00-0:01:00]",
+    "questions": [
+      {
+        "task_type": "Emotion Recognition",
+        "question": "What is the current emotion of the man with buzz cut of the video, and what caused his emotional changes?",
+        "time_stamp": "00:00:50",
+        "answer": "D",
+        "options": [
+          "A. He was very happy because the chef praised him.",
+          "B. He was very disappointed because the chef said the dishes he made are not tasty.",
+          "C. He felt nervous because the chef was tasting the dishes he had made.",
+          "D. He felt relieved because the chef did not criticize the dishes he made as not delicious."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "movie",
+    "video_path": "./videos/sample_44_Emotion_Recognition.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Anomaly Context Understanding",
+        "question": "What unusual event just occurred?",
+        "time_stamp": "00:00:43",
+        "answer": "C",
+        "options": [
+          "A. When A truck passed a railway track junction, the cargo on board was caught by the long-arm cargo on the train, and then overturned.",
+          "B. A car was going too fast and hit a blue truck in front of it, and the truck turned over.",
+          "C. On a side street, a black Mercedes was backing up and crashed into the car behind it.",
+          "D. On a side road, a car continued to move forward and hit a black Mercedes."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "car_accident",
+    "video_path": "./videos/sample_21_Anomaly_Context_Understanding.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Multimodal Alignment",
+        "question": "Describe the correspond scene when a man said 'I'll stick with my jerky.'.",
+        "time_stamp": "00:00:39",
+        "answer": "D",
+        "options": [
+          "A. A balding male wearing a black blazer with a black and blue striped shirt and black tattoo-dot tie is eating and talking.",
+          "B. A blonde woman wearing a brown coat with a black top underneath carries on a conversation.",
+          "C. A brown-haired male wearing a yellow blazer with a red and white plaid shirt and green tie with a horse design and rainbow stripes rests his left hand on the shoulder of a blonde female wearing a brown tunic with a black blouse underneath, and holds a piece of black food in his right hand.",
+          "D. A brown-haired male wearing a brown blazer with a yellow shirt and yellow and green striped tie and glasses spoke as he ate the beef jerky he held in his right hand."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "tv_series",
+    "video_path": "./videos/sample_14_Multimodal_Alignment.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Scene Understanding",
+        "question": "Please describe the scene that just occurred in the video?",
+        "time_stamp": "00:00:23",
+        "answer": "B",
+        "options": [
+          "A. A small black and yellow frog lies on a green leaf as the narrator says 'This is a poison dart frog'.",
+          "B. A tadpole swims in the water in the center of a green plant and the narrator says 'Nice and safe'.",
+          "C. A small black and yellow frog climbs on a mossy branch, and the narrator says 'Males raise their young in a very special way'.",
+          "D. A little black and yellow frog hops around on a green mossy branch and the narrator says 'A father will place each one of his tadpoles'."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "natural_documentary",
+    "video_path": "./videos/sample_2_Scene_Understanding_1-25.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Misleading Context Understanding",
+        "question": "What's on this blue desktop?",
+        "time_stamp": "00:00:22",
+        "answer": "B",
+        "options": [
+          "A. There are five stacked playing cards lying horizontally on the table.",
+          "B. There are five stacked playing cards on the table and a stack of green banknotes placed together on the right side.",
+          "C. There is a stack of green notes on the table with the number 10 written on them.",
+          "D. There are a number of green banknotes and unfolded playing cards on the table, and underneath there are folded playing cards with the numbers J, Q, K, A, and 10 of hearts written on them."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "online_tutorials",
+    "video_path": "./videos/sample_6_Misleading_Context_Understanding.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Anomaly Context Understanding",
+        "question": "What unusual event just occurred?",
+        "time_stamp": "00:00:37",
+        "answer": "B",
+        "options": [
+          "A. When A big truck changed lanes on the road, it hit the white car on the right. The white car lost control and drove into the roadside lawn, and finally it turned over seriously.",
+          "B. When changing lanes on the road, a large truck hit the black car on the right. The black car lost control and drove into the grass on the side of the road, and finally turned over seriously.",
+          "C. A vehicle acting as a camera was driving on the road and struck a white car on the left that had made a sudden right turn.",
+          "D. A vehicle acting as a camera lost control while changing lanes from left to right on the road and drove for some time before hitting a black car parked on the side of the road."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "car_accident",
+    "video_path": "./videos/sample_31_Anomaly_Context_Understanding.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Multimodal Alignment",
+        "question": "Describe the correspond scene when a person said 'choking under pressure boils down to focus.'.",
+        "time_stamp": "00:00:56",
+        "answer": "A",
+        "options": [
+          "A. The background of the picture is yellow, there is an orange letter 'FOCUS' in the middle of the picture, and there are many blue dots, and black and red lines in the picture.",
+          "B. The background of the picture is yellow and there are two people in the middle of the picture; the person on the left is wearing purple and holding an orange and white book, and the person on the right is wearing green and holding a blue and white book.",
+          "C. The background of the picture is blue-green, there is a man in the middle of the picture pointing to a microphone, and there are three white dots above the microphone.",
+          "D. The background of the picture is yellow, on the right side of the picture there is a small black hole with a red flag on it, on the left side of the picture there is a man in purple holding a golf club in his hand, and under his feet there is a white golf ball."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "science_documentary",
+    "video_path": "./videos/sample_42_Multimodal_Alignment.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Source Discrimination",
+        "question": "Who just asked 'Can I hold your hand?'\uff1f",
+        "time_stamp": "00:00:14",
+        "answer": "C",
+        "options": [
+          "A. A man with no hair, wearing a dark striped scarf, a black top and black pants.",
+          "B. A girl with dark brown hair, black glasses, a dark coat and a black top.",
+          "C. A girl with black hair, wearing a yellow striped top and jean overalls.",
+          "D. A girl wearing a pink knit hat and a pink striped top."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "kids cartoon",
+    "video_path": "./videos/sample_43_Source_Discrimination.mp4"
+  }
+]

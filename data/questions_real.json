@@ -1,0 +1,529 @@
+[
+  {
+    "time": "[0:01:00 - 0:02:00]",
+    "captions": "[0:01:20 - 0:01:40] [0:01:20 - 0:01:24]: A person wearing checkered tights is standing on a colorful patterned rug, next to a pair of red shoes. The shoes have a low heel and a strap. The person lifts one foot and begins to position it into one of the shoes. They then proceed to guide their foot into the shoe with their hands, ensuring it fits properly. [0:01:25 - 0:01:30]: Continuing the process, the person secures the strap of the shoe around their foot. The person then reaches for the second shoe, and repeats the process, carefully fitting their other foot into the red shoe and adjusting the strap to secure it. [0:01:31 - 0:01:36]: Both shoes are now on the person's feet. They adjust the straps, making sure the fit is snug and secure. The patterned rug below features horizontal stripes in a variety of colors, adding a vibrant background to the scene. [0:01:37 - 0:01:39]: The camera then cuts to a close-up of the person\u2019s face. The person has light-colored hair tied back and is wearing makeup. They appear focused, perhaps adjusting their appearance or ensuring everything is in place. In the background, an interior space with various objects is visible.",
+    "questions": [
+      {
+        "task_type": "Object Recognition",
+        "question": "What is the person putting on their feet?",
+        "time_stamp": "0:01:30",
+        "answer": "B",
+        "options": [
+          "A. Red boots.",
+          "B. Red shoes with a low heel and a strap.",
+          "C. Black sneakers.",
+          "D. Sandals."
+        ],
+        "required_ability": "working memory"
+      },
+      {
+        "task_type": "Attribute Recognition",
+        "question": "What pattern is on the stocking the person is wearing?",
+        "time_stamp": "0:01:24",
+        "answer": "C",
+        "options": [
+          "A. Stripes.",
+          "B. Polka dots.",
+          "C. Checkered.",
+          "D. Floral."
+        ],
+        "required_ability": "working memory"
+      },
+      {
+        "task_type": "Spatial Understanding",
+        "question": "What is featured in the background of the scene right now?",
+        "time_stamp": "0:01:36",
+        "answer": "B",
+        "options": [
+          "A. A plain white wall.",
+          "B. A patterned rug with horizontal stripes in various colors.",
+          "C. A window with curtains.",
+          "D. A bookshelf."
+        ],
+        "required_ability": "working memory"
+      },
+      {
+        "task_type": "Attribute Recognition",
+        "question": "What is the focus of the person when the camera cuts to a close-up of their face?",
+        "time_stamp": "0:01:40",
+        "answer": "C",
+        "options": [
+          "A. They are smiling and talking.",
+          "B. They are eating.",
+          "C. They appear focused, possibly adjusting their appearance.",
+          "D. They are looking at the camera and waving."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "getting_dressed",
+    "video_path": "./videos/sample_158_real.mp4"
+  },
+  {
+    "time": "[0:02:00 - 0:03:00]",
+    "captions": "[0:02:00 - 0:02:20] [0:02:00 - 0:02:13]: A woman is standing in front of a mirrored vanity in a room with floral wallpaper and soft lighting. She wears a green, gold-patterned dress and a beaded necklace. She is seen putting on a yellow scarf or shawl, adjusting it around her shoulders and arms. The bed with brass railings and a green chair are visible beside her. The vanity holds various small items, including a mirrored jewelry box and decorative items. [0:02:14 - 0:02:17]: The scene transitions to a close-up of two elegant glasses filled with a clear beverage, one with a lemon twist garnish. This part focuses on the delicate details of the glasses, their reflections, and the liquid they contain. [0:02:18 - 0:02:19]: The video shows a woman wearing a gold dress with intricate beadwork. She has short hair styled with a decorative headband, and she is smiling. The background appears to be an elegantly decorated indoor space, possibly with warm lighting.",
+    "questions": [
+      {
+        "task_type": "Action Recognition",
+        "question": "What is the woman doing right now?",
+        "time_stamp": "00:02:42",
+        "answer": "B",
+        "options": [
+          "A. Singing.",
+          "B. Dancing.",
+          "C. Smiling.",
+          "D. Reading."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "getting_dressed",
+    "video_path": "./videos/sample_161_real.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:10]",
+    "questions": [
+      {
+        "task_type": "Clips Summarize",
+        "question": "Which of the following options best summarizes the content of the video just shown?",
+        "time_stamp": "00:00:14",
+        "answer": "C",
+        "options": [
+          "A. The vendor set up a beverage station with cups and straws, preparing for customers.",
+          "B. The vendor organized a set of condiments and napkins at the counter to facilitate customer use.",
+          "C. The vendor puts on glove, arranged hot dog buns, getting ready to serve customers.",
+          "D. The vendor cleaned and restocked a salad bar, ensuring it is ready for use."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "preparation_of_meals",
+    "video_path": "./videos/sample_377_real.mp4"
+  },
+  {
+    "time": "[0:02:00 - 0:03:00]",
+    "captions": "[0:02:00 - 0:02:20] [0:02:00]: A close-up action shot of a soccer game, showing the goalkeeper in blue diving to his right attempting to save a shot. The ball is headed towards the goal from the left side of the image. The scoreboard shows the home team leading 3-0, and banners with advertisements are visible in the background. [0:02:01 - 0:02:07]: The perspective shifts to a broader view of the field. Players in purple and white are in action, with the ball being dribbled near the right corner of the goal area by a player in purple. Multiple players from both teams are inside the penalty area, some positioned defensively in anticipation of the attack. [0:02:08 - 0:02:11]: A player in purple is seen running towards the camera after scoring a goal. He is celebrating the goal, as evident from his facial expression and raised hands. The goal is confirmed by the updated score on the top left corner, now standing at 4-0. [0:02:12 - 0:02:15]: The player continues his celebration, heading towards the corner flag. He is joined by his teammates who are approaching him to celebrate together. The stadium is filled with spectators, some of whom are taking photographs or cheering. [0:02:16 - 0:02:18]: The game resumes, and the focus shifts back to another attack from the purple team. Players are moving quickly, with the ball being passed around inside the penalty area. The defensive players in white are trying to block the attacking players' movements. [0:02:19 - 0:02:20]: Another shot on goal is made by a player in purple. The goalkeeper in white dives to try to save the ball, but it is unclear if he succeeds. The defending team appears focused on preventing another goal.",
+    "questions": [
+      {
+        "task_type": "Event Understanding",
+        "question": "What is the updated score after the player in number 11 scored a goal?",
+        "time_stamp": "00:02:11",
+        "answer": "D",
+        "options": [
+          "A. 2-0.",
+          "B. 3-0.",
+          "C. 5-0.",
+          "D. 4-0."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "football",
+    "video_path": "./videos/sample_4_real.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:05]",
+    "questions": [
+      {
+        "task_type": "Text-Rich Understanding",
+        "question": "What is currently written on the sign visible in the video?",
+        "time_stamp": "00:00:03",
+        "answer": "D",
+        "options": [
+          "A. START.",
+          "B. GO!.",
+          "C. MICRO.",
+          "D. WHOOP."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "driving",
+    "video_path": "./videos/sample_254_real.mp4"
+  },
+  {
+    "time": "[0:01:00 - 0:01:31]",
+    "captions": "[0:01:00 - 0:01:20] The video begins by showing a view from the first-person perspective of someone playing a card game. The setting is a well-lit room with light gray walls and a large window to the left, allowing natural light to illuminate the area. The video captures a tabletop with a smooth gray surface.  Opposite the camera is another player, wearing a short-sleeved, multi-colored patterned shirt. The opponent sits with their arms resting on the table and is holding a set of cards in their hands. A deck of cards lies in the middle of the table, with a visible mix of both face-up and face-down cards spread out chaotically. To the right of the deck is a neatly stacked pile of cards placed face-down, and further to the right is a dark-colored mouse, suggesting that this might be a multi-purpose desk. Directly in front of the camera, one can see the hands of the individual recording, holding a fan of cards that include a combination of hearts, clubs, and spades. The cards visible in the fan show numbers and faces such as 5, 6, 8, and K of hearts, and 2 and 4 of clubs, indicating that the person is in the middle of a card game. As the video progresses, the camera holder shifts the cards slightly between their hands, seemingly organizing or deciding on a move. The opponent periodically places cards on the table, adding to the pile in the middle, while the person holding the camera responds by continuing to adjust their own cards. The camera captures the quick, fluent motions of drawing and discarding cards, typical of a fast-paced card game. The opponent's movements are deliberate; they extend their arm forward to place cards onto the central pile, showing a mix of both face cards and numbered cards. The hands of the person filming often come into focus, shifting and manipulating their cards, which demonstrate a range of suits and numbers predominantly focused on the game strategy. Throughout the entire video, the scene remains focused on the competitive yet cordial environment of the card game. The predictable interval of play actions between the two players creates an engaging rhythm, with rapid card handling motions indicating a blend of seriousness and enjoyment in the gameplay. The setting remains static, ensuring the concentration stays cohesively on the card game. The engaging dynamics of the game and the detailed view from the player's perspective create an immersive experience for the viewer.\n[0:01:20 - 0:01:31] The video opens with a clear view of a person sitting across a table in a well-lit room. The person wears a patterned shirt with a predominantly grey and black design. On the table between the person and the camera is a pile of playing cards, some face up and some face down. The cards feature a mix of suits, with both red and black readily visible in the heap. To the right of the pile, a neatly stacked deck of cards sits, its face down. The person across the table is holding several cards in their hands, fanning them out and seeming to contemplate their next move in the card game. As the video progresses, it\u2019s evident that the camera captures the hands of the person from a first-person perspective, revealing that they hold a spread of cards, predominantly hearts, with values including 5, 6, and Ace. The camera holder\u2019s hands frequently move, interacting with the cards on the table, shuffling through their hand of cards, or reaching down to pick up new ones or place cards into play. The person across the table occasionally picks cards from the pile and adds them to their hand, their focus shifting between the cards they hold and the pile on the table. The opposing player\u2019s facial expression changes subtly, sometimes with a slight smile, indicating their engagement in the game. Throughout the video, the room\u2019s background remains consistent, featuring light-colored walls and large windows on the left side, allowing natural light to fill the space. Additionally, there's a visible part of a whiteboard or similar writing surface behind the person across the table, as well as a black jacket slung over the back of a chair beside them. This video captures the dynamic of a card game in progress from a first-person viewpoint, emphasizing the interaction between the players and the use of strategic thinking, indicated by the careful examination and play of the cards.",
+    "questions": [
+      {
+        "task_type": "Attribute Recognition",
+        "question": "What type of shirt is the opponent wearing?",
+        "time_stamp": "00:01:11",
+        "answer": "A",
+        "options": [
+          "A. A blue and white patterned shirt.",
+          "B. A plain white shir.",
+          "C. A yellow patterned shirt.",
+          "D. A red checkered shirt."
+        ]
+      },
+      {
+        "task_type": "Prospective Reasoning",
+        "question": "What will the camera holder most likely do next?",
+        "time_stamp": "00:01:15",
+        "answer": "A",
+        "options": [
+          "A. Place Four of hearts onto the central pile.",
+          "B. Place the Ace of Spades onto the discard pile.",
+          "C. Put the Seven of Diamonds onto the foundation stack.",
+          "D. Move the King of Clubs to the empty tableau column."
+        ]
+      }
+    ],
+    "video_path": "./videos/sample_9_real.mp4"
+  },
+  {
+    "time": "[0:02:00 - 0:03:00]",
+    "captions": "[0:02:00 - 0:02:20] [0:02:00 - 0:02:06]: A hand is seen moving towards a structure made of colorful interlocking building blocks, which are primarily yellow, orange, green, and blue. The hand picks up a green block from the right side and attaches it to the existing structure. [0:02:07 - 0:02:11]: The hand adjusts the green block, ensuring it is properly connected. The structure now has an extended green piece. [0:02:12 - 0:02:15]: The hand picks up another yellow block and places it on top of the green extension, continuing to build the structure. [0:02:16 - 0:02:19]: The hand moves towards a red block on the left side, picks it up, and starts positioning it near the structure, possibly to attach it next.",
+    "questions": [
+      {
+        "task_type": "Event Understanding",
+        "question": "What was the sequence of events the hand followed when building the structure just now?",
+        "time_stamp": "00:02:15",
+        "answer": "B",
+        "options": [
+          "A. Picks up a yellow block, adjusts it, then picks up a red block.",
+          "B. Picks up a green block, adjusts it, then picks up a yellow block.",
+          "C. Picks up a red block, adjusts it, then picks up a yellow block.",
+          "D. Picks up a blue block, adjusts it, then picks up a green block."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "block_building",
+    "video_path": "./videos/sample_206_real.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "questions": [
+      {
+        "task_type": "Counting",
+        "question": "How many times in total have movie clips been inserted during this person's explanation so far?",
+        "time_stamp": "00:00:16",
+        "answer": "D",
+        "options": [
+          "A. 2.",
+          "B. 3.",
+          "C. 4.",
+          "D. 0."
+        ],
+        "required_ability": "episodic memory"
+      },
+      {
+        "task_type": "Counting",
+        "question": "How many times in total have movie clips been inserted during this person's explanation so far?",
+        "time_stamp": "00:00:56",
+        "answer": "D",
+        "options": [
+          "A. 1.",
+          "B. 3.",
+          "C. 4.",
+          "D. 0."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "introduction_to_film",
+    "video_path": "./videos/sample_103_real.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "captions": "[0:00:00 - 0:00:20] [0:00:00 - 0:00:01]: The scene starts with a colorful toy auto rickshaw visible on a white surface. The rickshaw is constructed with plastic building blocks in shades of yellow, orange, green, blue, and red. It has distinguishable features resembling an auto rickshaw, including a roof and wheels. The background is plain and white, and the text \"Auto Rickshaw\" is written in the top right corner in yellow. [0:00:02 - 0:00:02]: The toy auto rickshaw is no longer visible, leaving an empty white surface. [0:00:03 - 0:00:07]: A hand, positioned on the right side of the frame, places a blue, rectangular plastic building block with eight pegs on the white surface. The block is oriented horizontally. [0:00:08 - 0:00:10]: The hand remains in the frame, adjusting and pressing down on the blue building block to secure its position. [0:00:11 - 0:00:11]: The hand is briefly out of the frame, leaving the blue rectangular block alone on the white surface. [0:00:12 - 0:00:14]: The hand reappears, adding a yellow triangular block adjacent to the blue block, aligning it on top of the blue block's left side. [0:00:15 - 0:00:19]: Next, the hand starts constructing on top of the blue block by placing an orange rectangular block with four pegs. The hand firmly presses the orange block down to secure it, adjusting the position slightly to ensure a proper fit.  [0:00:19 - 0:00:19]: The hand adjusts the orange block one more time before the video ends.",
+    "questions": [
+      {
+        "task_type": "Text-Rich Understanding",
+        "question": "What was written in the top right corner at the start of the video?",
+        "time_stamp": "00:00:08",
+        "answer": "B",
+        "options": [
+          "A. Toy Car.",
+          "B. Auto Rickshaw.",
+          "C. Building Blocks.",
+          "D. Colorful Toy."
+        ],
+        "required_ability": "episodic memory"
+      },
+      {
+        "task_type": "Event Understanding",
+        "question": "What sequence of actions happened after the blue rectangular block is placed on the surface?",
+        "time_stamp": "00:00:19",
+        "answer": "A",
+        "options": [
+          "A. The hand adds a yellow block, then an orange block, and adjusts the orange block.",
+          "B. The hand adjusts the blue block, then adds a red block, and adjusts it again.",
+          "C. The hand places a green block, then a yellow block, and adjusts the yellow block.",
+          "D. The hand removes the blue block, places it again, and then adds a yellow block."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "block_building",
+    "video_path": "./videos/sample_210_real.mp4"
+  },
+  {
+    "time": "[0:04:00 - 0:05:00]",
+    "captions": "[0:04:00 - 0:04:20] [0:04:00 - 0:04:02]: The scene starts with a black frying pan positioned on the stovetop, which contains diced onions or vegetables being saut\u00e9ed. To the left of the pan is a shiny stainless steel pot. A hand appears at the upper section of the frame, seemingly adding an ingredient to the pan. [0:04:03 - 0:04:07]: The camera angle shifts to a wider view of a kitchen featuring white subway tile walls and a window with a pot of green plants on the nearby counter. A woman standing in front of the stovetop shakes pepper into the pot while her other hand handles the stovetop controls. Additional kitchen tools, a bottle of oil, and some ingredients are organized on the countertop.  [0:04:08 - 0:04:12]: The focus shifts back to the stovetop where another frying pan appears, this one containing an egg being fried. The egg whites are nearly set, while the yolk remains intact and bright yellow.  [0:04:13 - 0:04:15]: Returning to the wider kitchen view, the woman tends to the stovetop operations. She uses a spatula to stir the contents of the frying pan before adding an ingredient from a bowl. She occasionally looks down at her tasks. [0:04:16 - 0:04:18]: The woman lifts the frying pan at a slight angle and starts stirring it by shaking. She ensures the onions or vegetables inside are moved around consistently, likely for even cooking. [0:04:19]: The camera zooms in on the frying pan, capturing the contents as they are being saut\u00e9ed. The pan is held over another burner, displaying the woman\u2019s steady hand as she skillfully tosses the ingredients in motion.\n[0:04:20 - 0:04:40] \n[0:04:40 - 0:05:00] ",
+    "questions": [
+      {
+        "task_type": "Causal Reasoning",
+        "question": "Why does the woman lift the frying pan at a slight angle and shake it?",
+        "time_stamp": "00:04:18",
+        "answer": "C",
+        "options": [
+          "A. To add more oil to the pan.",
+          "B. To check if the contents are cooked.",
+          "C. To ensure the ingredients are moved around for even cooking.",
+          "D. To cool down the pan."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "cooking",
+    "video_path": "./videos/sample_23_real.mp4"
+  },
+  {
+    "time": "[0:00:41 - 0:01:01]",
+    "questions": [
+      {
+        "task_type": "Spatial Understanding",
+        "question": "What is the position of the yellow sign and black arrow right now?",
+        "time_stamp": "00:00:54",
+        "answer": "D",
+        "options": [
+          "A. Directly behind the cyclists.",
+          "B. On the right side of the road.",
+          "C. Directly ahead of the cyclists.",
+          "D. On the left side of the road."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "cycling",
+    "video_path": "./videos/sample_295_real.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:10]",
+    "questions": [
+      {
+        "task_type": "Clips Summarize",
+        "question": "Which of the following best summarizes the actions performed just now?",
+        "time_stamp": "00:00:10",
+        "answer": "B",
+        "options": [
+          "A. The individual took vegetables out of the refrigerator, cleaned them, and arranged them on a plate.",
+          "B. The individual retrieved a container with liquid, uncovered it, and began stirring its contents.",
+          "C. The individual operated a deep fryer, cooked food, and placed it into a serving dish.",
+          "D. The individual brewed coffee, poured it into cups, and served them."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "preparation_of_meals",
+    "video_path": "./videos/sample_376_real.mp4"
+  },
+  {
+    "time": "[0:06:20 - 0:06:28]",
+    "captions": "[0:06:20 - 0:06:28] [0:06:20 - 0:06:21]: A person with short brown hair, wearing a gray t-shirt, is sitting at a desk with a piece of computer hardware in front of them. They look engaged and are gesturing with their right hand. [0:06:21 - 0:06:22]: The person continues gesturing, raising their right index finger as if making a point. [0:06:22 - 0:06:23]: The person seems to be explaining something, with their hand likely resting on the desk. [0:06:23 - 0:06:24]: The person begins a broader gesture with their left hand, possibly elaborating on their previous point. [0:06:24 - 0:06:25]: The person faces the camera directly, placing their hand on the desk. [0:06:25 - 0:06:26]: Another gesture with their right hand is visible, this time moving towards their left. [0:06:26 - 0:06:27]: The person raises their right index finger again, emphasizing another point. [0:06:27 - 0:06:28]: The person rests their right hand on their chest and looks directly at the camera.",
+    "questions": [
+      {
+        "task_type": "Causal Reasoning",
+        "question": "What is the likely purpose of the person's gestures right now?",
+        "time_stamp": "00:06:27",
+        "answer": "B",
+        "options": [
+          "A. Asking a question.",
+          "B. Explaining a concept.",
+          "C. Writing something down.",
+          "D. Watching a demonstration."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "evaluation_of_electronic_products",
+    "video_path": "./videos/sample_119_real.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "captions": "[0:00:00 - 0:00:20] [0:00:00 - 0:00:08]: The video starts with a close-up of a colorful construct made of interlocking plastic blocks shaped like a rectangular flatbed vehicle on red wheels. The flatbed consists of green and yellow blocks, while the cabin section is comprised of alternating blue, green, orange, and yellow blocks. Gradually, a white toy car with black windows and blue details moves into the frame from the right side and is positioned onto the flatbed of the block vehicle. [0:00:09]: The scene cuts to a blank white surface, and the previous setup with the block vehicle and the toy car is no longer visible. [0:00:10 - 0:00:12]: A hand appears in the frame from the left side holding a yellow interlocking block consisting of two rows of four studs. The hand places the block on the surface and starts to release it. [0:00:13 - 0:00:15]: The hand reappears holding another yellow interlocking block, identical to the first one. The hand places the block on the white surface next to the first block. [0:00:16 - 0:00:19]: The hand continues to add more interlocking blocks of the same type and yellow color in a straight line formation on the white surface, positioning them one after the other. The lineup of blocks grows as an additional smaller block with one row of four studs is placed at the end. The hand carefully positions it to ensure that it fits well with the other blocks.",
+    "questions": [
+      {
+        "task_type": "Counting",
+        "question": "How many studs does each yellow interlocking block placed by the hand have?",
+        "time_stamp": "00:00:15",
+        "answer": "A",
+        "options": [
+          "A. Eight.",
+          "B. Sixteen.",
+          "C. Four.",
+          "D. Twelve."
+        ],
+        "required_ability": "working memory"
+      },
+      {
+        "task_type": "Counting",
+        "question": "How many interlocking blocks are positioned in a straight line by the hand?",
+        "time_stamp": "00:00:19",
+        "answer": "D",
+        "options": [
+          "A. Three.",
+          "B. Five.",
+          "C. Seven.",
+          "D. Four."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "block_building",
+    "video_path": "./videos/sample_203_real.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "captions": "[0:00:00 - 0:00:20] [0:00:00]: The video opens with a visually striking animation featuring red and blue shapes on the screen, forming abstract patterns. The shapes are bold, with sharp angles and curved elements, moving in a synchronized manner. The background smoothly transitions between colors; [0:00:01 - 0:00:02]: As the animation continues, a \"SUBSCRIBE\" button appears in the center of the screen. The button has a white border with bold white text on a red background. For added emphasis, the button is highlighted by a bright yellow glow; [0:00:03 - 0:00:04]: The scene shifts dramatically to a crowded football stadium, filled with spectators. The field is green, and players and officials, wearing red shirts and holding a ball, walk towards the camera. The atmosphere is lively, filled with anticipation. The Aeromexico and La Liga logos are visible in the background; [0:00:05]: As the procession continues, the camera focuses on a man extending his arm, engaged in an animated conversation. He is wearing a dark polo shirt, and the crowd\u2019s energy is palpable behind him; [0:00:06]: This man, still dressed in a dark polo shirt, embraces another individual, indicating a greeting or sign of respect. The red backdrop behind them accentuates the intense colors of the football stadium environment; [0:00:07]: Both men smile as they continue to greet and embrace others, tightening their hug. The surrounding crowd, some in security vests, and another person in sports attire are visible, adding to the sense of community and excitement; [0:00:08 - 0:00:09]: The camera cuts to an on-field interaction between players, identifiable by their uniforms. One player in green and another in white with the name \"Sergio Ramos\" and the number 4 on his jersey are seen. Several officials stand nearby, closely observing the interaction; [0:00:10]: An aerial view of the football field reveals players from both teams taking positions around the midfield circle, preparing for the game to start. The geometric patterns of the field's lines and the players' formations are clearly visible; [0:00:11]: With the stadium now fully visible, a large crowd fills the stands, suggesting a significant event. The game appears to be starting as players spread out on the field, ready to commence; [0:00:12]: The camera zooms out further, showing a broader view of the field and the arrangements of the players. The white team appears to be on one side and the blue team on the other, with the referee centrally positioned; [0:00:13 - 0:00:14]: The scoreboard overlays the lower part of the screen, showing \"0 - 0\" with team logos, underlining the match's commencement and the score at the starting point; [0:00:15 - 0:00:17]: The game advances, with both teams now actively engaging and moving the ball around the field. Players from both sides are strategically positioned, making attempts to move forward or defend; [0:00:18 - 0:00:20]: The game progresses with fluid movements across the pitch. Players in blue and white jerseys are actively passing the ball, looking for openings in each other's defenses. The scoreboard and La Liga branding remain on screen throughout this period.\n[0:00:40 - 0:01:00] [0:00:40 - 0:00:49]: On a crowded football field during a match, a player wearing a white jersey with the number 2 on the back is running towards a fallen player from the opposing team, who is wearing a purple and blue jersey. The white jerseyed player is in mid-step with one leg off the ground and arms slightly spread out for balance. The background is filled with cheering spectators, a banner with red and white sections, and a scoreboard displaying \"LALIGA.\" Moving to the next frame, the ball is in mid-air, and several players from both teams are positioning themselves underneath it. The white jersey player is closer to the camera, leaning slightly forward, while an oncoming player from the same team is attempting to connect with the ball. [0:00:50 - 0:00:56]: The ball is still airborne, with players from both teams intensely watching its descent. One player in a purple and blue jersey is making a high jump on the right side of the field, trying to head the ball. The goalkeeper, dressed in bright yellow, is seen nearer to the goal post, prepared to make a move. The players continue to converge around the goal area, with the yellow-clad goalkeeper making a fully outstretched dive to save the ball, resulting in a collision near the goal line. The ball is then struck past the goalkeeper who cannot make the save, resulting in a goal. [0:00:57]: Following the goal, the scene transitions to a joyful celebration. A player wearing a purple and blue jersey, numbered 9 on the back, is seen celebrating. He engages in a unique arm gesture with a teammate, who mimics the motion. Another teammate, with a partially visible name on his jersey, joins in the celebration. A crowd of spectators can be seen in the background, bringing life to the moment. [0:00:54 - 0:00:59]: Cutting back to an active play in another stage of the match, an attacking player in white is dribbling the ball up the field, facing defensive pressure from three players in purple and blue jerseys. The dribbling player manages to cut inside, evading one defender. Positioned near the top of the penalty area, he takes a stride to set up a shot as other defenders close in. With a quick step, a player in white manages to shoot, sending the ball past the defenders and goalkeeper. [0:01:00]: As the ball speeds towards the goal, the opposing goalie, dressed in green, dives futilely to stop it. The attacking player throws his arms in the air in celebration as the ball hits the back of the net. The crowd in the background is a blur of excitement, showing various flags and colors, with a large section dressed in black twirling scarves in jubilation.",
+    "questions": [
+      {
+        "task_type": "Object Recognition",
+        "question": "What logos are visible in the background as players and officials walk towards the camera?",
+        "time_stamp": "00:00:04",
+        "answer": "D",
+        "options": [
+          "A. FIFA and Premier League.",
+          "B. UEFA and Champions League.",
+          "C. Bundesliga and MLS.",
+          "D. Aeromexico and La Liga."
+        ],
+        "required_ability": "working memory"
+      },
+      {
+        "task_type": "Causal Reasoning",
+        "question": "Why does the player wearing the number nine red and blue jersey celebrate?",
+        "time_stamp": "00:00:53",
+        "answer": "C",
+        "options": [
+          "A. He saved a goal.",
+          "B. He received a pass.",
+          "C. He scored a goal.",
+          "D. He won a free kick."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "football",
+    "video_path": "./videos/sample_1_real.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:01:00]",
+    "captions": "[0:00:00 - 0:00:20] [0:00:00]: The video begins with a black screen. [0:00:01 - 0:00:05]: The scene transitions to a luxurious bedroom with deep red walls and furniture styled in an antique, ornate manner. The bed in the center of the frame is covered in red velvet, and a person with light hair is sleeping on the right side. The bed has a high headboard with intricate designs, and the person is partially covered by a red blanket. Next to the bed, there is a wooden bedside table with a lamp, a book, and other small items. Large, framed portraits of historical figures decorate the walls. [0:00:06 - 0:00:10]: A closer view shows the person sleeping more clearly. They have closed eyes and are resting their head on a pillow. The sheets and their clothing are white and appear finely detailed. The background remains the same with the red, velvet headboard closely visible. [0:00:11]: There is a slight overlay effect as two frames blend, showing the person's head rising from the pillow. The background of the ornate red bed and wall decor remains consistent. [0:00:12 - 0:00:14]: The person, now awake, starts to sit up in bed. Their actions involve using their hands to push off the bed and the red blanket partially removed. [0:00:15 - 0:00:18]: The person fully sits up on the edge of the bed, adjusting their sleepwear. The details of the bed and the room's background are more profoundly visible. [0:00:19 - 0:00:20]: The person gets out of bed and walks towards a red chair with a golden cloth draped over it. The ambient lighting reveals more details of the comprehensive settings of the room.\n[0:00:40 - 0:01:00] [0:00:40 - 0:00:41]: A person is pulling up a white, knee-high sock embroidered with gold detailing against a marble tile floor background. One hand is holding the top of the sock while the other holds the foot section.  [0:00:42 - 0:00:45]: The camera captures a wider view showing the person, an adult male with light skin, sitting on an ornate green chair, pulling up the sock while partially dressed in a white shirt. The room has marble tile flooring, a marble bathtub, a wooden dresser with various items and framed artwork on the walls. [0:00:46 - 0:00:48]: Close-up of the person adjusting a green garter-like band near the top of the white sock to hold it up securely while kneeling on the floor. [0:00:49 - 0:00:52]: The person starts to don an orange pair of breeches, standing up from the green chair, while the room\u2019s luxurious details such as the marble tub and golden fixtures are visible in the background. [0:00:53 - 0:00:56]: The person is shown pulling up the orange breeches, adjusting them around the waist and ensuring they fit comfortably. The gold details on the breeches catch the light. [0:00:57 - 0:00:59]: Close-up of upper waist section, where the person is fastening the breeches carefully, ensuring everything is properly in place. The white shirt with ruffled sleeves is also prominently visible.",
+    "questions": [
+      {
+        "task_type": "Attribute Recognition",
+        "question": "What color are the walls and the bed in the bedroom?",
+        "time_stamp": "0:00:05",
+        "answer": "D",
+        "options": [
+          "A. Blue.",
+          "B. Green.",
+          "C. Yellow.",
+          "D. Red."
+        ],
+        "required_ability": "working memory"
+      },
+      {
+        "task_type": "Action Recognition",
+        "question": "What does the person do after waking up?",
+        "time_stamp": "0:00:19",
+        "answer": "C",
+        "options": [
+          "A. Lies back down.",
+          "B. Walks out of the room.",
+          "C. Sits up on the edge of the bed.",
+          "D. Stands up and stretches."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "getting_dressed",
+    "video_path": "./videos/sample_154_real.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:30]",
+    "questions": [
+      {
+        "task_type": "Prospective Reasoning",
+        "question": "What topics might the speaker explain next?",
+        "time_stamp": "00:00:16",
+        "answer": "B",
+        "options": [
+          "A. Simplifying fractions.",
+          "B. Adding fractions.",
+          "C. Dividing fractions.",
+          "D. Subtracting fractions."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "math tutorials",
+    "video_path": "./videos/sample_213_real.mp4"
+  },
+  {
+    "time": "[0:01:00 - 0:02:00]",
+    "captions": "[0:01:00 - 0:01:20] [0:01:00 - 0:01:06]: A person wearing a golden robe has assistance from two others who are adjusting a braided belt around their waist. The hands of those helping are primarily focused on tightening and securing the belt. One helper is positioning the belt while the other is making final adjustments. The background is out of focus, ensuring the central focus remains on the belt adjustment process. [0:01:07 - 0:01:08]: The camera view shifts to show the feet of the person wearing the golden robe, which is adorned with delicate, patterned sandals. The floor has a wooden texture. The lower part of the robe partially conceals the feet, while the sandals feature intricate beadwork. [0:01:09 - 0:01:10]: A wider view reveals more of the surrounding scene. The golden-robed person stands near a bed with a green blanket, while a person in a light-colored dress kneels nearby, holding the robe. The floor maintains its wooden texture, and another person stands off to the side, also wearing light-colored clothing. [0:01:11 - 0:01:12]: The camera focuses on a metal tin containing a creamy substance situated on a wooden surface. The lid of the tin is open, revealing the cream inside. [0:01:13 - 0:01:16]: A person's fingers dip into the creamy substance inside the tin, gathering some of it. The view remains close-up, detailing the texture of both the cream and the person's fingertips. [0:01:17 - 0:01:19]: The focus moves to a metal tray holding several shallow shells with various colored powders inside them, along with a small wooden bowl containing a white powder. The powders in the shells are black, white, and green. The setting suggests an activity involving these materials, possibly related to the previous scenes.",
+    "questions": [
+      {
+        "task_type": "Action Recognition",
+        "question": "What are the helpers doing to the person in the golden robe?",
+        "time_stamp": "0:01:06",
+        "answer": "B",
+        "options": [
+          "A. Applying makeup.",
+          "B. Adjusting a braided belt.",
+          "C. Polishing their sandals.",
+          "D. Fixing their hair."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "getting_dressed",
+    "video_path": "./videos/sample_159_real.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:30]",
+    "questions": [
+      {
+        "task_type": "Prospective Reasoning",
+        "question": "What mathematical topic might the speaker focus on next?",
+        "time_stamp": "00:00:10",
+        "answer": "D",
+        "options": [
+          "A. Adding Fractions.",
+          "B. Dividing Fractions.",
+          "C. Simplifying Fractions.",
+          "D. Multiplying Fractions."
+        ],
+        "required_ability": "episodic memory"
+      }
+    ],
+    "video_categories": "math tutorials",
+    "video_path": "./videos/sample_219_real.mp4"
+  },
+  {
+    "time": "[0:02:00 - 0:03:00]",
+    "captions": "[0:02:00 - 0:02:20] [0:02:00 - 0:02:08]: A hand is placing a blue building block parallel and directly on top of a series of yellow building blocks arranged in a straight line on a white surface. The blue block is being carefully aligned with the yellow blocks beneath it. [0:02:09 - 0:02:19]: The hand then picks up a yellow building block from the adjacent line and begins to place it on top of the blue block and the yellow blocks below, forming a second layer. The hand carefully places the yellow block, ensuring it is aligned with the blocks below.",
+    "questions": [
+      {
+        "task_type": "Spatial Understanding",
+        "question": "How are the yellow building blocks arranged before the blue block is placed on top?",
+        "time_stamp": "0:02:08",
+        "answer": "B",
+        "options": [
+          "A. In a circle.",
+          "B. In a straight line.",
+          "C. In a random pattern.",
+          "D. In a triangular shape."
+        ],
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "block_building",
+    "video_path": "./videos/sample_202_real.mp4"
+  }
+]

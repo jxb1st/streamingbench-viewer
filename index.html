@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>StreamingBench Viewer — Dataset Visualizations</title>
+<style>
+:root {
+  --bg: #0f1419;
+  --panel: #1a2129;
+  --border: #2d3640;
+  --text: #e6e9ed;
+  --muted: #8a949e;
+  --accent: #4dabf7;
+  --good: #51cf66;
+  --bad: #ff6b6b;
+  --highlight: #ffd43b;
+  --purple: #b197fc;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+header {
+  padding: 12px 20px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.control { display: flex; align-items: center; gap: 6px; }
+.control label { color: var(--muted); font-size: 12px; }
+select, input, button {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 13px;
+  border-radius: 4px;
+}
+button { cursor: pointer; }
+button:hover:not(:disabled) { background: var(--border); }
+button:disabled { opacity: 0.4; cursor: not-allowed; }
+input[type=number] { width: 80px; }
+input[type=text] { width: 180px; }
+
+main {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 16px;
+  padding: 16px;
+  max-width: 100%;
+}
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  overflow: hidden;
+}
+.panel h2 {
+  margin: 0 0 12px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.field { margin-bottom: 12px; }
+.field-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.field-value { font-size: 14px; word-break: break-word; }
+.field-value.code {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+  background: var(--bg);
+  padding: 6px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  color: var(--accent);
+}
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-right: 4px;
+}
+.badge.task { background: rgba(77, 171, 247, 0.15); color: var(--accent); border: 1px solid rgba(77, 171, 247, 0.4); }
+.badge.ability { background: rgba(177, 151, 252, 0.15); color: var(--purple); border: 1px solid rgba(177, 151, 252, 0.4); }
+.badge.cat { background: rgba(81, 207, 102, 0.15); color: var(--good); border: 1px solid rgba(81, 207, 102, 0.4); }
+
+video {
+  width: 100%;
+  max-height: 540px;
+  background: #000;
+  border-radius: 4px;
+}
+.video-placeholder {
+  width: 100%;
+  min-height: 240px;
+  background: #000;
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--bad);
+  font-size: 13px;
+  text-align: center;
+  padding: 20px;
+  gap: 8px;
+}
+.task-content {
+  grid-column: 1 / -1;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px;
+}
+.task-content h2 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+}
+.task-content h2:not(:first-of-type) { margin-top: 24px; }
+
+.question-box {
+  padding: 14px 16px;
+  background: var(--bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 14px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.options-list { list-style: none; padding: 0; margin: 0; }
+.options-list li {
+  padding: 10px 14px;
+  margin: 6px 0;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.options-list li.correct {
+  background: rgba(81, 207, 102, 0.12);
+  border-color: var(--good);
+  color: var(--good);
+  font-weight: 600;
+}
+.options-list li.correct::after {
+  content: " \2713";
+  color: var(--good);
+  font-weight: 700;
+  margin-left: 6px;
+}
+.qa-turn {
+  margin-bottom: 10px;
+  padding: 14px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 13px;
+}
+.qa-turn.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+  background: rgba(77, 171, 247, 0.08);
+}
+.qa-turn .qa-meta {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.qa-turn .qa-q { margin-bottom: 8px; font-size: 14px; color: var(--text); }
+.qa-turn .qa-opts {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0 0;
+  font-size: 12px;
+}
+.qa-turn .qa-opts li {
+  padding: 4px 8px;
+  margin: 2px 0;
+  color: var(--muted);
+  border-left: 2px solid var(--border);
+}
+.qa-turn .qa-opts li.correct {
+  color: var(--good);
+  font-weight: 600;
+  border-color: var(--good);
+  background: rgba(81, 207, 102, 0.08);
+}
+.qa-turn .qa-a { color: var(--good); margin-top: 6px; font-weight: 600; }
+
+.timeline-wrap { margin: 16px 0 4px; }
+.timeline {
+  position: relative;
+  height: 32px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.timeline-mark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--highlight);
+}
+.timeline-mark.gt {
+  background: var(--good);
+  width: 3px;
+}
+.timeline-fill {
+  position: absolute;
+  top: 0; bottom: 0;
+  background: linear-gradient(90deg, rgba(255, 212, 59, 0.4), rgba(81, 207, 102, 0.4));
+  border-left: 2px solid var(--highlight);
+  border-right: 2px solid var(--good);
+}
+.timeline-label {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+.note {
+  margin: 8px 0;
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+}
+.error-msg {
+  background: rgba(255, 107, 107, 0.12);
+  border: 1px solid var(--bad);
+  color: var(--bad);
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+.error-msg code {
+  background: rgba(255, 107, 107, 0.15);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+.task-desc {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  background: var(--bg);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+}
+.kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  font-family: monospace;
+  font-size: 11px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 3px;
+}
+.stats-panel {
+  grid-column: 1 / -1;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+}
+.stats-panel h2 {
+  margin: 0 0 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.stats-summary {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 12px;
+  color: var(--muted);
+  font-family: "SFMono-Regular", Consolas, monospace;
+}
+.stats-summary b {
+  color: var(--text);
+  font-weight: 600;
+  margin-left: 3px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 12px;
+}
+.stats-grid .subsection h3 {
+  margin: 0 0 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.histogram { display: flex; flex-direction: column; gap: 3px; }
+.hist-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 110px;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+}
+.hist-label { color: var(--muted); text-align: right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.hist-bar-wrap {
+  height: 16px;
+  background: var(--bg);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.hist-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #74c0fc);
+  min-width: 0;
+  transition: width 0.25s ease;
+}
+.hist-bar.green { background: linear-gradient(90deg, var(--good), #8ce99a); }
+.hist-bar.purple { background: linear-gradient(90deg, var(--purple), #d0bfff); }
+.hist-count { color: var(--text); }
+.hist-count .hist-pct { color: var(--muted); font-size: 11px; margin-left: 4px; }
+.hist-row.current .hist-label { color: var(--highlight); }
+.hist-row.current .hist-bar { background: linear-gradient(90deg, var(--highlight), #ffe066); }
+
+.prompt-panel {
+  grid-column: 1 / -1;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px 20px;
+}
+.prompt-panel h2 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.prompt-panel h2 code {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  color: var(--accent);
+  background: var(--bg);
+  padding: 1px 6px;
+  border-radius: 3px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.prompt-block { margin-top: 14px; }
+.prompt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.prompt-label { font-size: 12px; color: var(--accent); font-weight: 600; }
+.prompt-stats {
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+.prompt-stats b { color: var(--text); font-weight: 600; margin: 0 2px; }
+.prompt-text {
+  margin: 0;
+  padding: 12px 14px;
+  background: #0a0d11;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+  max-height: 520px;
+  overflow-y: auto;
+}
+.prompt-text .esc {
+  color: var(--muted);
+  background: rgba(138, 148, 158, 0.12);
+  padding: 0 3px;
+  border-radius: 2px;
+  font-size: 10px;
+  margin: 0 1px;
+}
+.prompt-text .ctx-block {
+  display: block;
+  padding: 6px 0;
+  border-left: 2px solid var(--purple);
+  padding-left: 8px;
+  margin: 4px 0;
+  color: var(--muted);
+}
+.prompt-text .q-curr { color: var(--accent); font-weight: 600; }
+.prompt-text .gt    { color: var(--good); font-weight: 600; }
+.prompt-text .tag   { color: var(--highlight); }
+.prompt-intro {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+.toggle-switch { display: flex; align-items: center; gap: 6px; }
+.toggle-switch input[type=checkbox] {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+.toggle-switch label { cursor: pointer; user-select: none; }
+.subset-banner {
+  padding: 8px 20px;
+  background: rgba(255, 212, 59, 0.08);
+  border-bottom: 1px solid rgba(255, 212, 59, 0.3);
+  color: var(--muted);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.subset-banner strong { color: var(--highlight); }
+.subset-banner a { color: var(--accent); text-decoration: none; }
+.subset-banner a:hover { text-decoration: underline; }
+.back-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 13px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+}
+.back-link:hover { background: var(--border); }
+.video-missing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: var(--muted);
+  padding: 60px 20px;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 13px;
+  border: 1px dashed var(--border);
+}
+.video-missing strong { color: var(--highlight); margin-bottom: 6px; display: block; }
+</style>
+</head>
+<body>
+<div class="subset-banner">
+  <a class="back-link" href="../">&larr; All datasets</a>
+  <span>Showing a <strong>45-video representative subset</strong> of StreamingBench &mdash; full benchmark has 900 videos.</span>
+  <span style="margin-left:auto;">
+    <a href="https://arxiv.org/abs/2411.03628" target="_blank" rel="noopener">Paper</a> &middot;
+    <a href="https://github.com/THUNLP-MT/StreamingBench" target="_blank" rel="noopener">GitHub</a> &middot;
+    <a href="https://huggingface.co/datasets/mjuicem/StreamingBench" target="_blank" rel="noopener">HF Dataset</a>
+  </span>
+</div>
+<header>
+  <h1>StreamingBench Viewer</h1>
+  <div class="control">
+    <label>Task</label>
+    <select id="task-select"></select>
+  </div>
+  <div class="control">
+    <label>Sample</label>
+    <input type="number" id="sample-input" min="0" value="0">
+    <span id="sample-counter" style="color:var(--muted);font-size:12px;">/ 0</span>
+  </div>
+  <div class="control">
+    <button id="prev-btn">&larr; Prev</button>
+    <button id="next-btn">Next &rarr;</button>
+  </div>
+  <div class="control" id="turn-control" style="display:none;">
+    <label>QA Turn</label>
+    <select id="turn-select"></select>
+  </div>
+  <div class="control">
+    <label>Filter task_type</label>
+    <select id="type-filter"><option value="">(all)</option></select>
+  </div>
+  <div class="control">
+    <label>Filter category</label>
+    <select id="cat-filter"><option value="">(all)</option></select>
+  </div>
+  <div class="control toggle-switch">
+    <input type="checkbox" id="prompt-toggle" checked>
+    <label for="prompt-toggle">Show model prompt</label>
+  </div>
+  <div style="margin-left:auto;color:var(--muted);font-size:11px;">
+    <span class="kbd">&larr;</span> <span class="kbd">&rarr;</span> to navigate
+  </div>
+</header>
+
+<main>
+  <aside class="panel" id="metadata-panel">
+    <h2>Metadata</h2>
+    <div id="metadata-fields"></div>
+  </aside>
+  <section class="panel" id="video-panel">
+    <h2>Video <span id="video-duration" style="color:var(--muted);font-size:11px;font-weight:400;text-transform:none;letter-spacing:0;"></span></h2>
+    <div id="video-container"></div>
+  </section>
+  <section class="stats-panel" id="stats-panel"></section>
+  <section class="prompt-panel" id="prompt-panel"></section>
+  <section class="task-content" id="task-content"></section>
+</main>
+
+<script>
+(function() {
+  "use strict";
+
+  const TASKS = {
+    real: {
+      file: "data/questions_real.json",
+      label: "Real-Time Visual Understanding",
+      description: "Single-turn MCQ. Video is cut to segment up to the query time; model must answer about visible events/objects/actions in the recent window. Ten sub-task types (Clips Summarize, Object/Attribute/Action Recognition, Counting, Spatial, Text-Rich, Event, Causal/Prospective Reasoning).",
+      flat: true,
+    },
+    omni: {
+      file: "data/questions_omni.json",
+      label: "Omni-Source Understanding",
+      description: "Single-turn MCQ requiring joint visual+audio reasoning. Six sub-tasks: Misleading Context, Source Discrimination, Emotion Recognition, Anomaly Context, Scene Understanding, Multimodal Alignment.",
+      flat: true,
+    },
+    sqa: {
+      file: "data/questions_sqa.json",
+      label: "Sequential Question Answering",
+      description: "Multi-turn MCQ over the same video. Later questions refer back to entities introduced in earlier turns ('the person mentioned above', 'her opponent'). Tests discourse coherence under a streaming constraint.",
+      flat: false,
+    },
+    proactive: {
+      file: "data/questions_proactive.json",
+      label: "Proactive Output",
+      description: "Given instruction X at time t, the model must proactively emit the specified output the moment event E happens on screen. time_stamp = when the instruction is issued; ground_truth_time_stamp = when the model must speak up.",
+      flat: true,
+      proactive: true,
+    },
+  };
+
+  const cache = {};
+  let durations = null;
+  const state = {
+    task: "real",
+    sampleIdx: 0,
+    turnIdx: 0,
+    typeFilter: "",
+    catFilter: "",
+    showPrompt: localStorage.getItem("sb-show-prompt") !== "0",
+  };
+
+  // Prompt templates copied verbatim from src/benchmark/*.py
+  const PROMPT_REAL_OMNI =
+`You are an advanced video question-answering AI assistant. You have been provided with some frames from the video and a multiple-choice question related to the video. Your task is to carefully analyze the video and provide the best answer to question, choosing from the four options provided. Respond with only the letter (A, B, C, or D) of the correct option.
+
+Question: {Q}
+
+Options:
+{A}
+{B}
+{C}
+{D}
+
+The best option is:`;
+
+  const PROMPT_SQA =
+`You are an advanced video question-answering AI assistant. You have been provided with a video and a multiple-choice question related to the video. Your task is to carefully analyze the video and the provided context to answer the question, choosing from the four options provided. Respond with only the letter (A, B, C, or D) of the correct option.
+
+{CTX}
+
+Here is the question. Answer it and don't confuse it with the previous conversation.
+Question: {Q}
+
+Options:
+{A}
+{B}
+{C}
+{D}
+
+The best option is:`;
+
+  const PROMPT_PROACTIVE =
+`You are an advanced image question-answering AI assistant. You have been provided with images and a question related to the images. Your task is to carefully analyze the images and provide the answer to the question. You need to carefully confirm whether the images content meet the conditions of the question, and then output the correct content.
+
+Question: {Q}
+
+The answer is:
+`;
+
+  function letteredOptions(opts) {
+    const letters = ["A", "B", "C", "D", "E", "F"];
+    return (opts || []).map((o, i) => {
+      const raw = String(o);
+      return /^[A-F][\.\)]\s+/.test(raw) ? raw : letters[i] + ". " + raw;
+    });
+  }
+
+  const BUCKETS = [
+    { lo: 0,    hi: 60,       label: "<1m" },
+    { lo: 60,   hi: 180,      label: "1-3m" },
+    { lo: 180,  hi: 300,      label: "3-5m" },
+    { lo: 300,  hi: 600,      label: "5-10m" },
+    { lo: 600,  hi: 1200,     label: "10-20m" },
+    { lo: 1200, hi: 1800,     label: "20-30m" },
+    { lo: 1800, hi: 3600,     label: "30-60m" },
+    { lo: 3600, hi: Infinity, label: "60m+" },
+  ];
+
+  const $ = id => document.getElementById(id);
+
+  function escape(s) {
+    if (s == null) return "";
+    return String(s).replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+  }
+
+  function normVideoPath(p) {
+    // JSON paths look like "./videos/sample_X_TYPE.mp4" or absolute; both end up relative
+    if (!p) return "";
+    const idx = p.indexOf("videos/");
+    return idx >= 0 ? p.slice(idx) : "videos/" + p.split("/").pop();
+  }
+
+  function hmsToSec(s) {
+    if (!s) return 0;
+    const p = s.split(":").map(Number);
+    if (p.length === 3) return p[0] * 3600 + p[1] * 60 + p[2];
+    if (p.length === 2) return p[0] * 60 + p[1];
+    return Number(s) || 0;
+  }
+
+  function fmtDuration(s) {
+    if (s == null || !isFinite(s)) return "-";
+    if (s < 60)   return s.toFixed(1) + "s";
+    if (s < 3600) return Math.floor(s / 60) + "m " + Math.round(s % 60) + "s";
+    return Math.floor(s / 3600) + "h " + Math.round((s % 3600) / 60) + "m";
+  }
+
+  async function loadTask(key) {
+    if (cache[key]) return cache[key];
+    const res = await fetch(TASKS[key].file);
+    if (!res.ok) throw new Error("Failed to load " + TASKS[key].file + " (HTTP " + res.status + ")");
+    const raw = await res.json();
+    let flat, grouped;
+    if (TASKS[key].flat) {
+      flat = raw;
+      grouped = null;
+    } else {
+      // sqa: list of lists. Treat each sublist as one video's turns.
+      grouped = raw;
+      flat = [];
+      raw.forEach((sub, gi) => sub.forEach((e, ti) => {
+        flat.push({ ...e, _groupIdx: gi, _turnIdx: ti });
+      }));
+    }
+    const data = { flat, grouped };
+    cache[key] = data;
+    return data;
+  }
+
+  async function loadDurations() {
+    try {
+      const res = await fetch("file_durations.json");
+      if (res.ok) durations = await res.json();
+    } catch (e) { /* stats panel will render a hint */ }
+  }
+
+  function bucketOf(d) {
+    for (let i = 0; i < BUCKETS.length; i++) {
+      if (d >= BUCKETS[i].lo && d < BUCKETS[i].hi) return i;
+    }
+    return BUCKETS.length - 1;
+  }
+
+  function computeStats(durs) {
+    if (!durs || durs.length === 0) return null;
+    const sorted = durs.slice().sort((a, b) => a - b);
+    const n = sorted.length;
+    const pick = q => sorted[Math.min(n - 1, Math.floor(n * q))];
+    const sum = sorted.reduce((a, b) => a + b, 0);
+    const counts = BUCKETS.map(() => 0);
+    sorted.forEach(d => counts[bucketOf(d)]++);
+    return {
+      n, sum,
+      min: sorted[0], max: sorted[n - 1],
+      p25: pick(0.25), median: pick(0.5), p75: pick(0.75), p90: pick(0.9),
+      mean: sum / n, counts,
+    };
+  }
+
+  function uniqueVideos(flat) {
+    const s = new Set();
+    flat.forEach(e => s.add(normVideoPath(e.video_path)));
+    return [...s];
+  }
+
+  function taskStats(flat) {
+    const tt = {}, cat = {}, abil = {};
+    flat.forEach(e => {
+      const c = e.video_categories || "(none)";
+      cat[c] = (cat[c] || 0) + 1;
+      (e.questions || []).forEach(q => {
+        const t = q.task_type || "(none)";
+        const a = q.required_ability || "(none)";
+        tt[t] = (tt[t] || 0) + 1;
+        abil[a] = (abil[a] || 0) + 1;
+      });
+    });
+    return { tt, cat, abil };
+  }
+
+  function renderHist(counts, labels, cls, total, currentIdx) {
+    const max = Math.max.apply(null, counts) || 1;
+    let html = '<div class="histogram">';
+    counts.forEach((c, i) => {
+      const wpct = (c / max * 100).toFixed(2);
+      const spct = total ? (c / total * 100).toFixed(1) : "0";
+      const hl = (i === currentIdx) ? " current" : "";
+      html += '<div class="hist-row' + hl + '">' +
+        '<div class="hist-label" title="' + escape(labels[i]) + '">' + escape(labels[i]) + '</div>' +
+        '<div class="hist-bar-wrap"><div class="hist-bar ' + (cls||'') + '" style="width:' + wpct + '%"></div></div>' +
+        '<div class="hist-count">' + c + '<span class="hist-pct">(' + spct + '%)</span></div>' +
+        '</div>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  function renderStats(taskKey, data) {
+    const panel = $("stats-panel");
+    const { flat } = data;
+    const stats = taskStats(flat);
+    const uniqVids = uniqueVideos(flat);
+
+    let durStats = null, currentBucket = -1, currentDur = null;
+    if (durations) {
+      const durs = uniqVids.map(k => durations[k]).filter(d => d != null && isFinite(d));
+      durStats = computeStats(durs);
+      const cur = currentSample(data);
+      if (cur) {
+        const vp = normVideoPath(cur.video_path);
+        currentDur = durations[vp] ?? null;
+        if (currentDur != null) currentBucket = bucketOf(currentDur);
+      }
+    }
+
+    const sumHtml =
+      '<span>videos<b>' + uniqVids.length + '</b></span>' +
+      '<span>samples<b>' + flat.length + '</b></span>' +
+      (durStats
+        ? '<span>total_len<b>' + fmtDuration(durStats.sum) + '</b></span>' +
+          '<span>min<b>' + fmtDuration(durStats.min) + '</b></span>' +
+          '<span>median<b>' + fmtDuration(durStats.median) + '</b></span>' +
+          '<span>mean<b>' + fmtDuration(durStats.mean) + '</b></span>' +
+          '<span>p90<b>' + fmtDuration(durStats.p90) + '</b></span>' +
+          '<span>max<b>' + fmtDuration(durStats.max) + '</b></span>'
+        : '<span style="color:var(--bad);">file_durations.json missing &mdash; run <code>python compute_durations.py</code></span>') +
+      (currentDur != null
+        ? '<span style="color:var(--highlight);">current<b style="color:var(--highlight);">' + fmtDuration(currentDur) + '</b></span>'
+        : "");
+
+    const ttKeys = Object.keys(stats.tt).sort((a,b) => stats.tt[b] - stats.tt[a]);
+    const catKeys = Object.keys(stats.cat).sort((a,b) => stats.cat[b] - stats.cat[a]);
+    const abilKeys = Object.keys(stats.abil).sort((a,b) => stats.abil[b] - stats.abil[a]);
+    const totalQ = Object.values(stats.tt).reduce((a,b) => a+b, 0);
+    const totalC = Object.values(stats.cat).reduce((a,b) => a+b, 0);
+
+    let html = '<h2>Statistics &middot; ' + escape(TASKS[taskKey].label) + '</h2>';
+    html += '<div class="stats-summary">' + sumHtml + '</div>';
+    html += '<div class="stats-grid">';
+
+    if (durStats) {
+      html += '<div class="subsection"><h3>Video Length Distribution (n=' + durStats.n + ')</h3>' +
+        renderHist(durStats.counts, BUCKETS.map(b => b.label), '', durStats.n, currentBucket) +
+        '</div>';
+    } else {
+      html += '<div class="subsection"><h3>Video Length Distribution</h3><p class="note">Durations unavailable.</p></div>';
+    }
+
+    html += '<div class="subsection"><h3>Sub-Task Types (questions=' + totalQ + ')</h3>' +
+      renderHist(ttKeys.map(k => stats.tt[k]), ttKeys, 'green', totalQ, -1) + '</div>';
+
+    html += '<div class="subsection"><h3>Video Categories (samples=' + totalC + ')</h3>' +
+      renderHist(catKeys.map(k => stats.cat[k]), catKeys, 'purple', totalC, -1) + '</div>';
+
+    html += '<div class="subsection"><h3>Required Ability</h3>' +
+      renderHist(abilKeys.map(k => stats.abil[k]), abilKeys, '', totalQ, -1) + '</div>';
+
+    html += '</div>';
+    panel.innerHTML = html;
+  }
+
+  // ---- build exact prompt string fed to the model ----
+  function buildPromptRealOmni(sample) {
+    const q = (sample.questions && sample.questions[0]) || {};
+    const opts = letteredOptions(q.options);
+    return PROMPT_REAL_OMNI
+      .replace("{Q}", q.question || "")
+      .replace("{A}", opts[0] || "")
+      .replace("{B}", opts[1] || "")
+      .replace("{C}", opts[2] || "")
+      .replace("{D}", opts[3] || "");
+  }
+
+  function buildSqaContext(group, uptoTurnIdx) {
+    // Mirrors StreamingBenchSQA.py: context is built AFTER each turn's
+    // inference. For turn k (0-indexed), the context contains turns 0..k-1.
+    if (uptoTurnIdx <= 0) return "";
+    let ctx = "Here are the contextual information related to the video. Please answer the questions based on the contextual information: ";
+    for (let i = 0; i < uptoTurnIdx; i++) {
+      const sub = group[i];
+      const q = (sub.questions && sub.questions[0]) || {};
+      const opts = letteredOptions(q.options);
+      ctx += `At timestamp ${q.time_stamp}, the following question and answer occurred: Question: ${q.question}; Options: ${opts[0]}, ${opts[1]}, ${opts[2]}, ${opts[3]}; Answer: ${q.answer}; `;
+    }
+    return ctx;
+  }
+
+  function buildPromptSQA(group, turnIdx) {
+    const sub = group[turnIdx];
+    const q = (sub.questions && sub.questions[0]) || {};
+    const opts = letteredOptions(q.options);
+    const ctx = buildSqaContext(group, turnIdx);
+    return PROMPT_SQA
+      .replace("{CTX}", ctx)
+      .replace("{Q}", q.question || "")
+      .replace("{A}", opts[0] || "")
+      .replace("{B}", opts[1] || "")
+      .replace("{C}", opts[2] || "")
+      .replace("{D}", opts[3] || "");
+  }
+
+  function buildPromptProactive(sample) {
+    const q = (sample.questions && sample.questions[0]) || {};
+    const polling = `${q.question} Is it the right time to output "${q.ground_truth_output}"? You can only answer yes or no.`;
+    const confirm = q.question || "";
+    return {
+      polling: PROMPT_PROACTIVE.replace("{Q}", polling),
+      confirm: PROMPT_PROACTIVE.replace("{Q}", confirm),
+    };
+  }
+
+  function approxTokens(s) {
+    const t = s.trim();
+    return {
+      chars: s.length,
+      words: t ? t.split(/\s+/).length : 0,
+      bpe: Math.ceil(s.length / 4),
+      lines: s.split("\n").length,
+    };
+  }
+
+  function escapeWithNewlineMarkers(s) {
+    return escape(s).replace(/\n/g, '<span class="esc">\\n</span>\n');
+  }
+
+  function renderPromptBlock(label, text, note) {
+    const t = approxTokens(text);
+    return '<div class="prompt-block">' +
+      '<div class="prompt-header">' +
+        '<div class="prompt-label">' + escape(label) + '</div>' +
+        '<div class="prompt-stats">' +
+          'chars<b>' + t.chars + '</b>&middot; ' +
+          'words<b>' + t.words + '</b>&middot; ' +
+          '~BPE<b>' + t.bpe + '</b>&middot; ' +
+          'lines<b>' + t.lines + '</b>' +
+        '</div>' +
+      '</div>' +
+      (note ? '<p class="prompt-intro">' + note + '</p>' : '') +
+      '<pre class="prompt-text">' + escapeWithNewlineMarkers(text) + '</pre>' +
+      '</div>';
+  }
+
+  function renderPrompt(taskKey, sample, data) {
+    const panel = $("prompt-panel");
+    if (!state.showPrompt) { panel.style.display = "none"; return; }
+    panel.style.display = "block";
+
+    let html = '';
+    if (taskKey === "real" || taskKey === "omni") {
+      html = '<h2>Prompt fed to model &middot; <code>src/benchmark/StreamingBench.py</code></h2>' +
+        '<p class="prompt-intro">Exact text string passed as the instruction for this sample. Visual frames are the clip <code>split_video(video, 0 or time_stamp-CONTEXT_TIME, time_stamp)</code>.</p>' +
+        renderPromptBlock("MCQ prompt", buildPromptRealOmni(sample));
+    } else if (taskKey === "sqa") {
+      const group = data.grouped[sample._groupIdx];
+      const prompt = buildPromptSQA(group, state.turnIdx);
+      const ctxLen = buildSqaContext(group, state.turnIdx).length;
+      html = '<h2>Prompt fed to model &middot; <code>src/benchmark/StreamingBenchSQA.py</code></h2>' +
+        '<p class="prompt-intro">SQA is evaluated <b>sequentially within a video</b>. Before turn <b>' + (state.turnIdx + 1) +
+        '</b> runs, the prompt is augmented with the ground-truth answers of turns <b>1..' + state.turnIdx + '</b> ' +
+        '(formatted as contextual Q/A pairs). For turn 1 the context is empty. During real inference the same structure is used except <b>the model\'s own prior answer</b> is substituted — here we show GT for clarity.</p>' +
+        renderPromptBlock(
+          "Turn " + (state.turnIdx + 1) + " / " + group.length +
+            " \u00b7 context-tokens for prior " + state.turnIdx + " turns (ctx chars=" + ctxLen + ")",
+          prompt,
+          state.turnIdx === 0
+            ? '<span style="color:var(--muted);">First turn &mdash; <code>{CTX}</code> is the empty string.</span>'
+            : ''
+        );
+    } else if (taskKey === "proactive") {
+      const p = buildPromptProactive(sample);
+      html = '<h2>Prompt fed to model &middot; <code>src/benchmark/StreamingBenchProactive.py</code></h2>' +
+        '<p class="prompt-intro">Proactive uses a <b>polling loop</b>: every second from <code>time_stamp+1</code> to <code>ground_truth_time_stamp+4</code>, the model is asked the POLLING prompt with the growing clip <code>split_video(video, time_stamp, t)</code>. If it replies "yes", the CONFIRM prompt is re-issued at the same clip and the final output is recorded.</p>' +
+        renderPromptBlock("1. Polling prompt (reissued each second)", p.polling) +
+        renderPromptBlock("2. Confirm prompt (only after model says yes)", p.confirm);
+    }
+    panel.innerHTML = html;
+  }
+
+  function field(label, value, isCode) {
+    return '<div class="field"><div class="field-label">' + escape(label) +
+      '</div><div class="field-value' + (isCode ? " code" : "") + '">' + value + "</div></div>";
+  }
+
+  function makeVideoElement(src, autoSeek) {
+    const v = document.createElement("video");
+    v.src = src;
+    v.controls = true;
+    v.preload = "metadata";
+    if (autoSeek != null) {
+      v.addEventListener("loadedmetadata", () => {
+        try { v.currentTime = parseFloat(autoSeek); } catch (e) {}
+        const dur = v.duration && isFinite(v.duration) ? v.duration : null;
+        if (dur != null) $("video-duration").textContent = "(" + fmtDuration(dur) + ")";
+      });
+    } else {
+      v.addEventListener("loadedmetadata", () => {
+        const dur = v.duration && isFinite(v.duration) ? v.duration : null;
+        if (dur != null) $("video-duration").textContent = "(" + fmtDuration(dur) + ")";
+      });
+    }
+    v.addEventListener("error", () => {
+      const placeholder = document.createElement("div");
+      placeholder.className = "video-missing";
+      placeholder.innerHTML =
+        '<strong>Video not included in subset</strong>' +
+        '<div style="font-family:monospace;font-size:11px;">' + escape(src) + '</div>' +
+        '<div style="font-size:11px;max-width:440px;margin-top:8px;">This viewer ships with ~45 representative videos. For the full benchmark, see the <a href="https://huggingface.co/datasets/mjuicem/StreamingBench" target="_blank" rel="noopener" style="color:var(--accent);">HF dataset</a>.</div>';
+      v.replaceWith(placeholder);
+    });
+    return v;
+  }
+
+  function setVideo(container, src, autoSeek) {
+    container.innerHTML = "";
+    $("video-duration").textContent = "";
+    container.appendChild(makeVideoElement(src, autoSeek));
+  }
+
+  function taskDesc(key) {
+    return '<p class="task-desc">' + escape(TASKS[key].description) + "</p>";
+  }
+
+  function renderOptions(options, answer) {
+    if (!options || !options.length) return "";
+    const letters = ["A","B","C","D","E","F"];
+    // answer is a letter key (A/B/C/D) or the option text itself (sqa sometimes).
+    return '<ul class="options-list">' + options.map((o, i) => {
+      // Strip leading "A. " if present; if not present, prepend.
+      const raw = String(o);
+      const hasPrefix = /^[A-F][\.\)]\s+/.test(raw);
+      const text = hasPrefix ? raw : (letters[i] + ". " + raw);
+      const letter = hasPrefix ? raw[0] : letters[i];
+      const isCorrect = (answer === letter) || (answer === raw) || (answer && raw.indexOf(answer) === 0);
+      return '<li class="' + (isCorrect ? "correct" : "") + '">' + escape(text) + '</li>';
+    }).join("") + '</ul>';
+  }
+
+  // ---- samples according to filters ----
+  function filtered(data) {
+    const f = data.flat;
+    if (!state.typeFilter && !state.catFilter) return f;
+    return f.filter(e => {
+      if (state.catFilter && e.video_categories !== state.catFilter) return false;
+      if (state.typeFilter) {
+        const tts = (e.questions || []).map(q => q.task_type);
+        if (!tts.includes(state.typeFilter)) return false;
+      }
+      return true;
+    });
+  }
+
+  function currentSample(data) {
+    const f = filtered(data);
+    if (!f.length) return null;
+    if (state.sampleIdx < 0) state.sampleIdx = 0;
+    if (state.sampleIdx >= f.length) state.sampleIdx = f.length - 1;
+    return f[state.sampleIdx];
+  }
+
+  // ---- renderers ----
+  function renderStandard(sample, taskKey) {
+    const q0 = (sample.questions && sample.questions[0]) || {};
+    const tsSec = hmsToSec(q0.time_stamp);
+    const vidPath = normVideoPath(sample.video_path);
+
+    let meta =
+      field("Video", escape(vidPath.split("/").pop()), true) +
+      field("Path", escape(vidPath), true);
+
+    if (sample.video_categories) {
+      meta += field("Category", '<span class="badge cat">' + escape(sample.video_categories) + '</span>');
+    }
+    if (sample.time) {
+      meta += field("Context Window", escape(sample.time));
+    }
+    if (q0.task_type) {
+      meta += field("Task Type", '<span class="badge task">' + escape(q0.task_type) + '</span>');
+    }
+    if (q0.required_ability) {
+      meta += field("Required Ability", '<span class="badge ability">' + escape(q0.required_ability) + '</span>');
+    }
+    if (q0.time_stamp) {
+      meta += field("Query Timestamp", escape(q0.time_stamp) + "  (" + tsSec.toFixed(1) + "s)");
+    }
+    if (q0.ground_truth_time_stamp) {
+      meta += field("GT Output Timestamp", escape(q0.ground_truth_time_stamp) + "  (" + hmsToSec(q0.ground_truth_time_stamp).toFixed(1) + "s)");
+    }
+    if (q0.ground_truth_output != null) {
+      meta += field("GT Output", '<span style="color:var(--good);font-weight:600;">' + escape(q0.ground_truth_output) + '</span>');
+    } else if (q0.answer != null) {
+      meta += field("GT Answer", '<span style="color:var(--good);font-weight:600;">' + escape(q0.answer) + '</span>');
+    }
+    $("metadata-fields").innerHTML = meta;
+    setVideo($("video-container"), vidPath, tsSec > 0 ? tsSec : null);
+
+    let body = taskDesc(taskKey);
+    if (TASKS[taskKey].proactive) {
+      const issue = tsSec;
+      const gt = hmsToSec(q0.ground_truth_time_stamp);
+      body += '<h2>Instruction</h2>' +
+        '<div class="question-box">' + escape(q0.question) + '</div>';
+      body += '<h2>Trigger Timeline</h2>' +
+        '<div class="timeline-wrap">' +
+          '<div class="timeline" id="pa-timeline">' +
+            '<div class="timeline-mark" id="pa-issue" title="instruction issued at ' + q0.time_stamp + '"></div>' +
+            '<div class="timeline-mark gt" id="pa-gt" title="expected output at ' + q0.ground_truth_time_stamp + '"></div>' +
+          '</div>' +
+          '<div class="timeline-label"><span>0 s</span><span id="pa-end-label">video end</span></div>' +
+        '</div>' +
+        '<p class="note">Yellow = instruction issued (time_stamp). Green = expected output timestamp. The model is correct if it outputs <b>' + escape(q0.ground_truth_output || "") + '</b> within a tolerance of the green mark.</p>';
+    } else {
+      body += '<h2>Question</h2>' +
+        '<div class="question-box">' + escape(q0.question) + '</div>' +
+        '<h2>Options (Ground-truth = ' + escape(q0.answer || "?") + ')</h2>' +
+        renderOptions(q0.options, q0.answer);
+    }
+    $("task-content").innerHTML = body;
+
+    if (TASKS[taskKey].proactive) {
+      const v = $("video-container").querySelector("video");
+      if (v) {
+        v.addEventListener("loadedmetadata", () => {
+          const dur = v.duration && isFinite(v.duration) ? v.duration : Math.max(hmsToSec(q0.ground_truth_time_stamp) * 1.2, 60);
+          const issue = hmsToSec(q0.time_stamp);
+          const gt = hmsToSec(q0.ground_truth_time_stamp);
+          const mi = $("pa-issue"), mg = $("pa-gt"), lb = $("pa-end-label");
+          if (mi) mi.style.left = ((issue / dur) * 100).toFixed(2) + "%";
+          if (mg) mg.style.left = ((gt / dur) * 100).toFixed(2) + "%";
+          if (lb) lb.textContent = fmtDuration(dur);
+        });
+      }
+    }
+    hideTurnControl();
+  }
+
+  function renderSQA(sampleFlat, data, taskKey) {
+    const group = data.grouped[sampleFlat._groupIdx];
+    setupTurnControl(group.length);
+    const turn = group[state.turnIdx];
+    const q0 = (turn.questions && turn.questions[0]) || {};
+    const tsSec = hmsToSec(q0.time_stamp);
+    const vidPath = normVideoPath(turn.video_path);
+
+    let meta =
+      field("Video", escape(vidPath.split("/").pop()), true) +
+      field("Path", escape(vidPath), true) +
+      field("Category", '<span class="badge cat">' + escape(turn.video_categories || "") + '</span>') +
+      field("Group Size (turns)", String(group.length)) +
+      field("Current Turn", (state.turnIdx + 1) + " / " + group.length);
+    if (turn.time) meta += field("Context Window", escape(turn.time));
+    if (q0.time_stamp) meta += field("Query Timestamp", escape(q0.time_stamp) + "  (" + tsSec.toFixed(1) + "s)");
+    if (q0.required_ability) meta += field("Required Ability", '<span class="badge ability">' + escape(q0.required_ability) + '</span>');
+    if (q0.answer) meta += field("GT Answer", '<span style="color:var(--good);font-weight:600;">' + escape(q0.answer) + '</span>');
+    $("metadata-fields").innerHTML = meta;
+    setVideo($("video-container"), vidPath, tsSec > 0 ? tsSec : null);
+
+    let body = taskDesc(taskKey);
+    body += '<h2>Current Turn (' + (state.turnIdx + 1) + " / " + group.length + ')</h2>' +
+      '<div class="question-box">' + escape(q0.question) + '</div>' +
+      '<h2>Options (Ground-truth = ' + escape(q0.answer || "?") + ')</h2>' +
+      renderOptions(q0.options, q0.answer);
+
+    body += '<h2>All Turns (chronological)</h2>';
+    group.forEach((t, i) => {
+      const q = (t.questions && t.questions[0]) || {};
+      body += '<div class="qa-turn ' + (i === state.turnIdx ? "active" : "") + '">' +
+        '<div class="qa-meta">Turn ' + (i + 1) + ' &middot; context ' + escape(t.time || "") +
+        ' &middot; query ' + escape(q.time_stamp || "") + '</div>' +
+        '<div class="qa-q"><b>Q:</b> ' + escape(q.question || "") + '</div>';
+      if (q.options) {
+        const letters = ["A","B","C","D","E","F"];
+        body += '<ul class="qa-opts">';
+        q.options.forEach((o, j) => {
+          const raw = String(o);
+          const hasPrefix = /^[A-F][\.\)]\s+/.test(raw);
+          const text = hasPrefix ? raw : (letters[j] + ". " + raw);
+          const letter = hasPrefix ? raw[0] : letters[j];
+          const ok = (q.answer === letter) || (q.answer === raw);
+          body += '<li class="' + (ok ? "correct" : "") + '">' + escape(text) + '</li>';
+        });
+        body += '</ul>';
+      }
+      body += '<div class="qa-a">A: ' + escape(q.answer || "") + '</div>' +
+        '</div>';
+    });
+    $("task-content").innerHTML = body;
+  }
+
+  function setupTurnControl(numTurns) {
+    const ctrl = $("turn-control");
+    const sel = $("turn-select");
+    sel.innerHTML = "";
+    for (let i = 0; i < numTurns; i++) {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = (i + 1) + " / " + numTurns;
+      sel.appendChild(opt);
+    }
+    if (state.turnIdx >= numTurns) state.turnIdx = 0;
+    sel.value = state.turnIdx;
+    ctrl.style.display = "flex";
+  }
+  function hideTurnControl() {
+    $("turn-control").style.display = "none";
+  }
+
+  function updateFilterOptions(data) {
+    const stats = taskStats(data.flat);
+    const tfill = (sel, keys) => {
+      const cur = sel.value;
+      sel.innerHTML = '<option value="">(all)</option>' +
+        keys.sort().map(k => '<option value="' + escape(k) + '">' + escape(k) + '</option>').join("");
+      if (keys.includes(cur)) sel.value = cur;
+      else sel.value = "";
+    };
+    tfill($("type-filter"), Object.keys(stats.tt));
+    tfill($("cat-filter"), Object.keys(stats.cat));
+  }
+
+  async function render() {
+    let data;
+    try {
+      data = await loadTask(state.task);
+    } catch (err) {
+      $("metadata-fields").innerHTML =
+        '<div class="error-msg"><b>Failed to load JSON:</b><br>' + escape(err.message) +
+        '<br><br>Serve this directory with <code>python -m http.server</code> and open <code>http://localhost:8000/dataset_viewer.html</code>. Ensure <code>data/questions_*.json</code> exist next to this HTML.</div>';
+      $("video-container").innerHTML = "";
+      $("task-content").innerHTML = "";
+      $("stats-panel").innerHTML = "";
+      return;
+    }
+    updateFilterOptions(data);
+
+    const f = filtered(data);
+    $("sample-input").max = Math.max(0, f.length - 1);
+    $("sample-counter").textContent = "/ " + Math.max(0, f.length - 1) + " (filtered " + f.length + " / " + data.flat.length + ")";
+    if (state.sampleIdx >= f.length) state.sampleIdx = Math.max(0, f.length - 1);
+    $("sample-input").value = state.sampleIdx;
+    $("prev-btn").disabled = state.sampleIdx === 0;
+    $("next-btn").disabled = state.sampleIdx >= f.length - 1;
+
+    const sample = currentSample(data);
+    if (!sample) {
+      $("metadata-fields").innerHTML = '<div class="error-msg">No samples match current filters.</div>';
+      $("video-container").innerHTML = "";
+      $("task-content").innerHTML = "";
+      renderStats(state.task, data);
+      return;
+    }
+
+    if (state.task === "sqa") {
+      renderSQA(sample, data, "sqa");
+    } else {
+      renderStandard(sample, state.task);
+    }
+    renderStats(state.task, data);
+    renderPrompt(state.task, sample, data);
+  }
+
+  async function init() {
+    await loadDurations();
+    const taskSel = $("task-select");
+    Object.keys(TASKS).forEach(k => {
+      const opt = document.createElement("option");
+      opt.value = k;
+      opt.textContent = TASKS[k].label;
+      taskSel.appendChild(opt);
+    });
+    taskSel.value = state.task;
+
+    taskSel.addEventListener("change", () => {
+      state.task = taskSel.value;
+      state.sampleIdx = 0;
+      state.turnIdx = 0;
+      state.typeFilter = "";
+      state.catFilter = "";
+      render();
+    });
+    $("sample-input").addEventListener("change", () => {
+      state.sampleIdx = parseInt($("sample-input").value, 10) || 0;
+      state.turnIdx = 0;
+      render();
+    });
+    $("prev-btn").addEventListener("click", () => {
+      if (state.sampleIdx > 0) {
+        state.sampleIdx--;
+        state.turnIdx = 0;
+        render();
+      }
+    });
+    $("next-btn").addEventListener("click", () => {
+      state.sampleIdx++;
+      state.turnIdx = 0;
+      render();
+    });
+    $("turn-select").addEventListener("change", () => {
+      state.turnIdx = parseInt($("turn-select").value, 10) || 0;
+      render();
+    });
+    $("type-filter").addEventListener("change", () => {
+      state.typeFilter = $("type-filter").value;
+      state.sampleIdx = 0; state.turnIdx = 0;
+      render();
+    });
+    $("cat-filter").addEventListener("change", () => {
+      state.catFilter = $("cat-filter").value;
+      state.sampleIdx = 0; state.turnIdx = 0;
+      render();
+    });
+    $("prompt-toggle").checked = state.showPrompt;
+    $("prompt-toggle").addEventListener("change", () => {
+      state.showPrompt = $("prompt-toggle").checked;
+      localStorage.setItem("sb-show-prompt", state.showPrompt ? "1" : "0");
+      render();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT" || e.target.tagName === "TEXTAREA") return;
+      if (e.key === "ArrowLeft" && state.sampleIdx > 0) {
+        state.sampleIdx--; state.turnIdx = 0; render();
+      } else if (e.key === "ArrowRight") {
+        state.sampleIdx++; state.turnIdx = 0; render();
+      }
+    });
+    render();
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>

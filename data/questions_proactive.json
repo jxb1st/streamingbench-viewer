@@ -1,0 +1,152 @@
+[
+  {
+    "time": "[0:00:00 - 0:00:10]",
+    "questions": [
+      {
+        "task_type": "Proactive Output",
+        "question": "When a red 6 card is played, output \"red 6\".",
+        "time_stamp": "00:00:05",
+        "ground_truth_time_stamp": "00:00:16",
+        "ground_truth_output": "red 6",
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "playing card",
+    "video_path": "./videos/sample_38_proactive.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:10]",
+    "questions": [
+      {
+        "task_type": "Proactive Output",
+        "question": "When the player in the white and green jersey scores a goal, output \"Goal by white team\".",
+        "time_stamp": "00:00:06",
+        "ground_truth_time_stamp": "00:00:16",
+        "ground_truth_output": "Goal by white team",
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "football",
+    "video_path": "./videos/sample_43_proactive.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:10]",
+    "questions": [
+      {
+        "task_type": "Proactive Output",
+        "question": "When the blue 9 card is played later, output \"blue 9\".",
+        "time_stamp": "00:00:18",
+        "ground_truth_time_stamp": "00:00:38",
+        "ground_truth_output": "blue 9",
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "playing card",
+    "video_path": "./videos/sample_41_proactive.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:30]",
+    "questions": [
+      {
+        "task_type": "Proactive Output",
+        "question": "When France's score changes to 9 for the first time, output \"9\".",
+        "time_stamp": "00:00:05",
+        "ground_truth_time_stamp": "00:00:15",
+        "ground_truth_output": "9",
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "basketball",
+    "video_path": "./videos/sample_14_proactive.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:20]",
+    "questions": [
+      {
+        "task_type": "Proactive Output",
+        "question": "When R. O'Sullivan pots the first ball in the video, output \"First ball potted\".",
+        "time_stamp": "00:00:01",
+        "ground_truth_time_stamp": "00:00:05",
+        "ground_truth_output": "First ball potted",
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "snooker",
+    "video_path": "./videos/sample_3_proactive.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:30]",
+    "questions": [
+      {
+        "task_type": "Proactive Output",
+        "question": "When the scoreboard shows AD for BORGES in the video later, output \"BORGES AD\".",
+        "time_stamp": "00:00:14",
+        "ground_truth_time_stamp": "00:00:24",
+        "ground_truth_output": "BORGES AD",
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "tennis",
+    "video_path": "./videos/sample_23_proactive.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:30]",
+    "questions": [
+      {
+        "task_type": "Proactive Output",
+        "question": "When the Serbian player scores a three-pointer, output \"Three-pointer Serbia\".",
+        "time_stamp": "00:00:00",
+        "ground_truth_time_stamp": "00:00:08",
+        "ground_truth_output": "Three-pointer Serbia",
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "basketball",
+    "video_path": "./videos/sample_15_proactive.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:10]",
+    "questions": [
+      {
+        "task_type": "Proactive Output",
+        "question": "When the lineup for Toronto FC is displayed, output \"Toronto FC lineup shown\".",
+        "time_stamp": "00:00:03",
+        "ground_truth_time_stamp": "00:00:08",
+        "ground_truth_output": "Toronto FC lineup shown",
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "football",
+    "video_path": "./videos/sample_44_proactive.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:20]",
+    "questions": [
+      {
+        "task_type": "Proactive Output",
+        "question": "When the player hits the ball with his cue stick, output \"Ball Hit\".",
+        "time_stamp": "00:00:10",
+        "ground_truth_time_stamp": "00:00:16",
+        "ground_truth_output": "Ball Hit",
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "snooker",
+    "video_path": "./videos/sample_10_proactive.mp4"
+  },
+  {
+    "time": "[0:00:00 - 0:00:30]",
+    "questions": [
+      {
+        "task_type": "Proactive Output",
+        "question": "When the scoreboard shows \"Auger-Aliassime 40\" later, output \"40\".",
+        "time_stamp": "00:00:00",
+        "ground_truth_time_stamp": "00:00:14",
+        "ground_truth_output": "40",
+        "required_ability": "working memory"
+      }
+    ],
+    "video_categories": "tennis",
+    "video_path": "./videos/sample_20_proactive.mp4"
+  }
+]
