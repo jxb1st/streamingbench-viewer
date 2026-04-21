@@ -242,6 +242,7 @@ video {
   background: var(--good);
   width: 3px;
 }
+.timeline-mark.zero { background: var(--muted); width: 2px; }
 .timeline-fill {
   position: absolute;
   top: 0; bottom: 0;
@@ -249,12 +250,59 @@ video {
   border-left: 2px solid var(--highlight);
   border-right: 2px solid var(--good);
 }
+.timeline-fill.input {
+  background: linear-gradient(90deg, rgba(77, 171, 247, 0.35), rgba(77, 171, 247, 0.55));
+  border-left: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+}
+.timeline-fill.input-min {
+  background: rgba(77, 171, 247, 0.75);
+  border-left: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+  z-index: 2;
+}
+.timeline-fill.input-max {
+  background: rgba(77, 171, 247, 0.18);
+  border-left: 1px dashed var(--accent);
+  border-right: 1px dashed var(--accent);
+  z-index: 1;
+}
 .timeline-label {
   font-size: 11px;
   color: var(--muted);
   display: flex;
   justify-content: space-between;
   margin-top: 4px;
+}
+.input-win-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 8px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.input-win-summary b { color: var(--accent); font-weight: 600; margin-left: 3px; }
+.input-win-legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.input-win-legend .sw {
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  vertical-align: middle;
+  margin-right: 4px;
+  border-radius: 2px;
 }
 .note {
   margin: 8px 0;
@@ -536,6 +584,10 @@ video {
     <label>Filter category</label>
     <select id="cat-filter"><option value="">(all)</option></select>
   </div>
+  <div class="control" title="Seconds of video fed to the model BEFORE time_stamp. Use -1 (or 0) for full history from 0s. Ignored by Proactive task.">
+    <label>context_time (s)</label>
+    <input type="number" id="ct-input" min="-1" step="10" value="60" style="width:70px;">
+  </div>
   <div class="control toggle-switch">
     <input type="checkbox" id="prompt-toggle" checked>
     <label for="prompt-toggle">Show model prompt</label>
@@ -602,6 +654,10 @@ video {
     typeFilter: "",
     catFilter: "",
     showPrompt: localStorage.getItem("sb-show-prompt") !== "0",
+    contextTime: (() => {
+      const v = parseInt(localStorage.getItem("sb-context-time"), 10);
+      return isNaN(v) ? 60 : v;
+    })(),
   };
 
   // Prompt templates copied verbatim from src/benchmark/*.py
@@ -1072,6 +1128,111 @@ The answer is:
     return f[state.sampleIdx];
   }
 
+  // ---- model input video window ----
+  function secToHms(s) {
+    if (s == null || !isFinite(s) || s < 0) return "-";
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = Math.floor(s % 60);
+    const pad = n => String(n).padStart(2, "0");
+    return pad(h) + ":" + pad(m) + ":" + pad(sec);
+  }
+
+  // Replicates src/benchmark logic — the exact slice passed to split_video().
+  //   Real / Omni / SQA:  [max(0, time_stamp - context_time), time_stamp]
+  //                       context_time <= 0  →  [0, time_stamp]   ("All context")
+  //   Proactive:          start = time_stamp (fixed); clips grow every 1s
+  //                       up to min(ground_truth_time + 4, video_end)
+  function computeInputWindow(taskKey, q0, videoDur) {
+    const ts = hmsToSec(q0.time_stamp);
+    const ct = state.contextTime;
+    if (taskKey === "proactive") {
+      const gt = hmsToSec(q0.ground_truth_time_stamp);
+      const cap = videoDur && isFinite(videoDur) ? videoDur : (gt + 4);
+      const endMax = Math.min(gt + 4, cap);
+      const firstEnd = Math.min(ts + 1, endMax);
+      const numPolls = Math.max(0, Math.floor(endMax - ts));
+      return {
+        type: "proactive",
+        start: ts, ts, gt,
+        endMin: firstEnd,
+        endMax,
+        numPolls,
+      };
+    }
+    let start, rule;
+    if (ct > 0) {
+      start = Math.max(0, ts - ct);
+      rule = "max(0, time_stamp - context_time)";
+    } else {
+      start = 0;
+      rule = "0  (context_time <= 0 → full history)";
+    }
+    return { type: "window", start, end: ts, length: ts - start, rule };
+  }
+
+  function renderInputWindow(win, totalDur) {
+    const dur = totalDur && isFinite(totalDur) && totalDur > 0
+      ? totalDur
+      : Math.max(win.end ?? win.endMax ?? 60, 60);
+    const pct = x => (Math.max(0, Math.min(dur, x)) / dur * 100).toFixed(2) + "%";
+
+    let html = '<h2>Video Window Fed To Model</h2>';
+
+    if (win.type === "window") {
+      const summary =
+        '<span>context_time<b>' + (state.contextTime > 0 ? state.contextTime + "s" : state.contextTime + " (all)") + '</b></span>' +
+        '<span>start<b>' + secToHms(win.start) + '</b></span>' +
+        '<span>end<b>' + secToHms(win.end) + '</b></span>' +
+        '<span>length<b>' + fmtDuration(win.length) + '</b></span>' +
+        '<span>rule<b style="color:var(--muted);font-weight:400;">' + escape(win.rule) + '</b></span>';
+      html += '<div class="input-win-summary">' + summary + '</div>';
+      html +=
+        '<div class="timeline-wrap">' +
+          '<div class="timeline">' +
+            '<div class="timeline-mark zero" style="left:0%"></div>' +
+            '<div class="timeline-fill input" style="left:' + pct(win.start) + ';width:calc(' + pct(win.end) + ' - ' + pct(win.start) + ');"></div>' +
+            '<div class="timeline-mark" style="left:' + pct(win.end) + '" title="time_stamp"></div>' +
+          '</div>' +
+          '<div class="timeline-label"><span>0 s</span><span>' + fmtDuration(dur) + '</span></div>' +
+          '<div class="input-win-legend">' +
+            '<span><span class="sw" style="background:var(--muted);"></span>video start (0 s)</span>' +
+            '<span><span class="sw" style="background:rgba(77,171,247,0.5);border:1px solid var(--accent);"></span>window fed to model</span>' +
+            '<span><span class="sw" style="background:var(--highlight);"></span>time_stamp (end of clip)</span>' +
+          '</div>' +
+        '</div>';
+      return html;
+    }
+
+    // proactive: show the fan of growing windows
+    const summary =
+      '<span>mode<b>polling loop</b></span>' +
+      '<span>clip start<b>' + secToHms(win.start) + ' (fixed = time_stamp)</b></span>' +
+      '<span>first poll ends<b>' + secToHms(win.endMin) + ' (t+1s)</b></span>' +
+      '<span>last poll ends<b>' + secToHms(win.endMax) + ' (GT+4s)</b></span>' +
+      '<span>max clip length<b>' + fmtDuration(win.endMax - win.start) + '</b></span>' +
+      '<span>num polls (worst case)<b>' + win.numPolls + '</b></span>';
+    html += '<div class="input-win-summary">' + summary + '</div>';
+    html +=
+      '<div class="timeline-wrap">' +
+        '<div class="timeline">' +
+          '<div class="timeline-fill input-max" style="left:' + pct(win.start) + ';width:calc(' + pct(win.endMax) + ' - ' + pct(win.start) + ');" title="largest clip: [time_stamp, GT+4]"></div>' +
+          '<div class="timeline-fill input-min" style="left:' + pct(win.start) + ';width:calc(' + pct(win.endMin) + ' - ' + pct(win.start) + ');" title="first clip: [time_stamp, time_stamp+1]"></div>' +
+          '<div class="timeline-mark" style="left:' + pct(win.ts) + '" title="instruction issued at time_stamp"></div>' +
+          '<div class="timeline-mark gt" style="left:' + pct(win.gt) + '" title="expected output at ground_truth_time_stamp"></div>' +
+        '</div>' +
+        '<div class="timeline-label"><span>0 s</span><span>' + fmtDuration(dur) + '</span></div>' +
+        '<div class="input-win-legend">' +
+          '<span><span class="sw" style="background:rgba(77,171,247,0.75);"></span>first clip (1 s)</span>' +
+          '<span><span class="sw" style="background:rgba(77,171,247,0.18);border:1px dashed var(--accent);"></span>clip keeps growing up to GT+4s</span>' +
+          '<span><span class="sw" style="background:var(--highlight);"></span>time_stamp</span>' +
+          '<span><span class="sw" style="background:var(--good);"></span>ground_truth_time_stamp</span>' +
+        '</div>' +
+      '</div>' +
+      '<p class="note">Proactive feeds the model one clip per second — all starting at <code>time_stamp</code>, ending at the current polling second. Shown: the first (solid) and last (dashed) clip. <code>context_time</code> is not used here.</p>';
+    return html;
+  }
+
   // ---- renderers ----
   function renderStandard(sample, taskKey) {
     const q0 = (sample.questions && sample.questions[0]) || {};
@@ -1086,7 +1247,26 @@ The answer is:
       meta += field("Category", '<span class="badge cat">' + escape(sample.video_categories) + '</span>');
     }
     if (sample.time) {
-      meta += field("Context Window", escape(sample.time));
+      meta += field(
+        "Annotation Span (subset.time)",
+        '<span title="Dataset annotation: the time range of the event the question is about. NOT the video fed to the model. See the \'Video Window Fed To Model\' panel below.">' +
+        escape(sample.time) + ' <span style="color:var(--muted);font-size:11px;">ⓘ not the model input</span></span>'
+      );
+    }
+    {
+      const dur = (durations && durations[vidPath]) || null;
+      const win = computeInputWindow(taskKey, q0, dur);
+      if (win.type === "window") {
+        meta += field(
+          "Model Input Clip",
+          '<span class="code" style="color:var(--accent);">[' + secToHms(win.start) + ' → ' + secToHms(win.end) + ']</span> <span style="color:var(--muted);font-size:11px;">len ' + fmtDuration(win.length) + '</span>'
+        );
+      } else {
+        meta += field(
+          "Model Input Clip (grows)",
+          '<span class="code" style="color:var(--accent);">[' + secToHms(win.start) + ' → ' + secToHms(win.endMin) + ' … ' + secToHms(win.endMax) + ']</span> <span style="color:var(--muted);font-size:11px;">1s → ' + fmtDuration(win.endMax - win.start) + ', ' + win.numPolls + ' polls</span>'
+        );
+      }
     }
     if (q0.task_type) {
       meta += field("Task Type", '<span class="badge task">' + escape(q0.task_type) + '</span>');
@@ -1109,20 +1289,14 @@ The answer is:
     setVideo($("video-container"), vidPath, tsSec > 0 ? tsSec : null);
 
     let body = taskDesc(taskKey);
+    const vidDur = (durations && durations[vidPath]) || null;
+    const win = computeInputWindow(taskKey, q0, vidDur);
+    body += renderInputWindow(win, vidDur);
+
     if (TASKS[taskKey].proactive) {
-      const issue = tsSec;
-      const gt = hmsToSec(q0.ground_truth_time_stamp);
       body += '<h2>Instruction</h2>' +
-        '<div class="question-box">' + escape(q0.question) + '</div>';
-      body += '<h2>Trigger Timeline</h2>' +
-        '<div class="timeline-wrap">' +
-          '<div class="timeline" id="pa-timeline">' +
-            '<div class="timeline-mark" id="pa-issue" title="instruction issued at ' + q0.time_stamp + '"></div>' +
-            '<div class="timeline-mark gt" id="pa-gt" title="expected output at ' + q0.ground_truth_time_stamp + '"></div>' +
-          '</div>' +
-          '<div class="timeline-label"><span>0 s</span><span id="pa-end-label">video end</span></div>' +
-        '</div>' +
-        '<p class="note">Yellow = instruction issued (time_stamp). Green = expected output timestamp. The model is correct if it outputs <b>' + escape(q0.ground_truth_output || "") + '</b> within a tolerance of the green mark.</p>';
+        '<div class="question-box">' + escape(q0.question) + '</div>' +
+        '<p class="note">The model is correct if it outputs <b style="color:var(--good);">' + escape(q0.ground_truth_output || "") + '</b> within a tolerance (≤1s / ≤2s / ≤3s / ≤4s) of ground_truth_time_stamp.</p>';
     } else {
       body += '<h2>Question</h2>' +
         '<div class="question-box">' + escape(q0.question) + '</div>' +
@@ -1131,17 +1305,21 @@ The answer is:
     }
     $("task-content").innerHTML = body;
 
-    if (TASKS[taskKey].proactive) {
+    if (!vidDur) {
       const v = $("video-container").querySelector("video");
       if (v) {
         v.addEventListener("loadedmetadata", () => {
-          const dur = v.duration && isFinite(v.duration) ? v.duration : Math.max(hmsToSec(q0.ground_truth_time_stamp) * 1.2, 60);
-          const issue = hmsToSec(q0.time_stamp);
-          const gt = hmsToSec(q0.ground_truth_time_stamp);
-          const mi = $("pa-issue"), mg = $("pa-gt"), lb = $("pa-end-label");
-          if (mi) mi.style.left = ((issue / dur) * 100).toFixed(2) + "%";
-          if (mg) mg.style.left = ((gt / dur) * 100).toFixed(2) + "%";
-          if (lb) lb.textContent = fmtDuration(dur);
+          const dur = v.duration && isFinite(v.duration) ? v.duration : null;
+          if (dur) {
+            const win2 = computeInputWindow(taskKey, q0, dur);
+            const body2 = taskDesc(taskKey) + renderInputWindow(win2, dur) +
+              (TASKS[taskKey].proactive
+                ? '<h2>Instruction</h2><div class="question-box">' + escape(q0.question) + '</div>' +
+                  '<p class="note">The model is correct if it outputs <b style="color:var(--good);">' + escape(q0.ground_truth_output || "") + '</b> within a tolerance (≤1s / ≤2s / ≤3s / ≤4s) of ground_truth_time_stamp.</p>'
+                : '<h2>Question</h2><div class="question-box">' + escape(q0.question) + '</div>' +
+                  '<h2>Options (Ground-truth = ' + escape(q0.answer || "?") + ')</h2>' + renderOptions(q0.options, q0.answer));
+            $("task-content").innerHTML = body2;
+          }
         });
       }
     }
@@ -1162,14 +1340,33 @@ The answer is:
       field("Category", '<span class="badge cat">' + escape(turn.video_categories || "") + '</span>') +
       field("Group Size (turns)", String(group.length)) +
       field("Current Turn", (state.turnIdx + 1) + " / " + group.length);
-    if (turn.time) meta += field("Context Window", escape(turn.time));
+    if (turn.time) {
+      meta += field(
+        "Annotation Span (subset.time)",
+        '<span title="Dataset annotation of the event range. NOT the video fed to the model.">' +
+        escape(turn.time) + ' <span style="color:var(--muted);font-size:11px;">ⓘ not the model input</span></span>'
+      );
+    }
     if (q0.time_stamp) meta += field("Query Timestamp", escape(q0.time_stamp) + "  (" + tsSec.toFixed(1) + "s)");
+    {
+      const dur = (durations && durations[vidPath]) || null;
+      const win = computeInputWindow("sqa", q0, dur);
+      meta += field(
+        "Model Input Clip (this turn)",
+        '<span class="code" style="color:var(--accent);">[' + secToHms(win.start) + ' → ' + secToHms(win.end) + ']</span> <span style="color:var(--muted);font-size:11px;">len ' + fmtDuration(win.length) + '</span>'
+      );
+    }
     if (q0.required_ability) meta += field("Required Ability", '<span class="badge ability">' + escape(q0.required_ability) + '</span>');
     if (q0.answer) meta += field("GT Answer", '<span style="color:var(--good);font-weight:600;">' + escape(q0.answer) + '</span>');
     $("metadata-fields").innerHTML = meta;
     setVideo($("video-container"), vidPath, tsSec > 0 ? tsSec : null);
 
     let body = taskDesc(taskKey);
+    const vidDurSqa = (durations && durations[vidPath]) || null;
+    const winSqa = computeInputWindow("sqa", q0, vidDurSqa);
+    body += renderInputWindow(winSqa, vidDurSqa);
+    body += '<p class="note">In SQA, <b>each turn independently</b> re-cuts the video using the same rule, <i>plus</i> a text-only context prefix built from the ground-truth Q/A of all prior turns in this video (see "Prompt fed to model" below).</p>';
+
     body += '<h2>Current Turn (' + (state.turnIdx + 1) + " / " + group.length + ')</h2>' +
       '<div class="question-box">' + escape(q0.question) + '</div>' +
       '<h2>Options (Ground-truth = ' + escape(q0.answer || "?") + ')</h2>' +
@@ -1328,6 +1525,13 @@ The answer is:
     $("prompt-toggle").addEventListener("change", () => {
       state.showPrompt = $("prompt-toggle").checked;
       localStorage.setItem("sb-show-prompt", state.showPrompt ? "1" : "0");
+      render();
+    });
+    $("ct-input").value = state.contextTime;
+    $("ct-input").addEventListener("change", () => {
+      const v = parseInt($("ct-input").value, 10);
+      state.contextTime = isNaN(v) ? 60 : v;
+      localStorage.setItem("sb-context-time", String(state.contextTime));
       render();
     });
     document.addEventListener("keydown", (e) => {
