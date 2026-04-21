@@ -593,6 +593,8 @@ video {
 
   const cache = {};
   let durations = null;
+  let fullStats = null;
+  let fullStatsError = null;
   const state = {
     task: "real",
     sampleIdx: 0,
@@ -719,6 +721,17 @@ The answer is:
     } catch (e) { /* stats panel will render a hint */ }
   }
 
+  async function loadFullStats() {
+    const url = "full_dataset_stats.json?v=" + Date.now();
+    try {
+      const res = await fetch(url, { cache: "no-store" });
+      if (res.ok) fullStats = await res.json();
+      else fullStatsError = "HTTP " + res.status + " " + res.statusText;
+    } catch (e) {
+      fullStatsError = String(e);
+    }
+  }
+
   function bucketOf(d) {
     for (let i = 0; i < BUCKETS.length; i++) {
       if (d >= BUCKETS[i].lo && d < BUCKETS[i].hi) return i;
@@ -786,10 +799,16 @@ The answer is:
     const stats = taskStats(flat);
     const uniqVids = uniqueVideos(flat);
 
-    let durStats = null, currentBucket = -1, currentDur = null;
-    if (durations) {
+    // Prefer full-dataset durations when available; fall back to subset-only.
+    let durStats = null, currentBucket = -1, currentDur = null, statsSource = "subset";
+    if (fullStats && fullStats.per_task && fullStats.per_task[taskKey] && fullStats.per_task[taskKey].stats) {
+      durStats = fullStats.per_task[taskKey].stats;
+      statsSource = "full";
+    } else if (durations) {
       const durs = uniqVids.map(k => durations[k]).filter(d => d != null && isFinite(d));
       durStats = computeStats(durs);
+    }
+    if (durations) {
       const cur = currentSample(data);
       if (cur) {
         const vp = normVideoPath(cur.video_path);
@@ -799,8 +818,11 @@ The answer is:
     }
 
     const sumHtml =
-      '<span>videos<b>' + uniqVids.length + '</b></span>' +
-      '<span>samples<b>' + flat.length + '</b></span>' +
+      '<span>videos (subset)<b>' + uniqVids.length + '</b></span>' +
+      '<span>samples (subset)<b>' + flat.length + '</b></span>' +
+      (fullStats && fullStats.per_task && fullStats.per_task[taskKey]
+        ? '<span>samples (full)<b>' + fullStats.per_task[taskKey].n_samples + '</b></span>'
+        : '') +
       (durStats
         ? '<span>total_len<b>' + fmtDuration(durStats.sum) + '</b></span>' +
           '<span>min<b>' + fmtDuration(durStats.min) + '</b></span>' +
@@ -824,7 +846,10 @@ The answer is:
     html += '<div class="stats-grid">';
 
     if (durStats) {
-      html += '<div class="subsection"><h3>Video Length Distribution (n=' + durStats.n + ')</h3>' +
+      const sourceLabel = statsSource === "full"
+        ? '<span style="color:var(--muted);font-weight:400;font-size:11px;">(full dataset, n=' + durStats.n + ')</span>'
+        : '<span style="color:var(--muted);font-weight:400;font-size:11px;">(subset only, n=' + durStats.n + ')</span>';
+      html += '<div class="subsection"><h3>Video Length Distribution ' + sourceLabel + '</h3>' +
         renderHist(durStats.counts, BUCKETS.map(b => b.label), '', durStats.n, currentBucket) +
         '</div>';
     } else {
@@ -1245,6 +1270,7 @@ The answer is:
 
   async function init() {
     await loadDurations();
+    await loadFullStats();
     const taskSel = $("task-select");
     Object.keys(TASKS).forEach(k => {
       const opt = document.createElement("option");
