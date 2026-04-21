@@ -795,19 +795,21 @@ The answer is:
 
   function renderStats(taskKey, data) {
     const panel = $("stats-panel");
-    const { flat } = data;
-    const stats = taskStats(flat);
-    const uniqVids = uniqueVideos(flat);
 
-    // Prefer full-dataset durations when available; fall back to subset-only.
-    let durStats = null, currentBucket = -1, currentDur = null, statsSource = "subset";
-    if (fullStats && fullStats.per_task && fullStats.per_task[taskKey] && fullStats.per_task[taskKey].stats) {
-      durStats = fullStats.per_task[taskKey].stats;
-      statsSource = "full";
-    } else if (durations) {
-      const durs = uniqVids.map(k => durations[k]).filter(d => d != null && isFinite(d));
-      durStats = computeStats(durs);
+    if (!fullStats || !fullStats.per_task || !fullStats.per_task[taskKey]) {
+      panel.innerHTML =
+        '<h2>Dataset Statistics &middot; ' + escape(TASKS[taskKey].label) + '</h2>' +
+        '<p class="note">full_dataset_stats.json failed to load' +
+        (fullStatsError ? ' (' + escape(fullStatsError) + ')' : '') +
+        '. Hard-refresh (Ctrl/Cmd+Shift+R) to retry.</p>';
+      return;
     }
+
+    const ft = fullStats.per_task[taskKey];
+    const durStats = ft.stats;
+
+    // Locate the currently-previewed sample's bucket (purely for the highlight).
+    let currentBucket = -1, currentDur = null;
     if (durations) {
       const cur = currentSample(data);
       if (cur) {
@@ -817,53 +819,56 @@ The answer is:
       }
     }
 
+    const tt = ft.task_type_counts || {};
+    const cat = ft.video_category_counts || {};
+    const abil = ft.required_ability_counts || {};
+    const ttKeys = Object.keys(tt).sort((a,b) => tt[b] - tt[a]);
+    const catKeys = Object.keys(cat).sort((a,b) => cat[b] - cat[a]);
+    const abilKeys = Object.keys(abil).sort((a,b) => abil[b] - abil[a]);
+    const totalQ = Object.values(tt).reduce((a,b) => a+b, 0);
+    const totalC = Object.values(cat).reduce((a,b) => a+b, 0);
+
     const sumHtml =
-      '<span>videos (subset)<b>' + uniqVids.length + '</b></span>' +
-      '<span>samples (subset)<b>' + flat.length + '</b></span>' +
-      (fullStats && fullStats.per_task && fullStats.per_task[taskKey]
-        ? '<span>samples (full)<b>' + fullStats.per_task[taskKey].n_samples + '</b></span>'
-        : '') +
-      (durStats
-        ? '<span>total_len<b>' + fmtDuration(durStats.sum) + '</b></span>' +
-          '<span>min<b>' + fmtDuration(durStats.min) + '</b></span>' +
-          '<span>median<b>' + fmtDuration(durStats.median) + '</b></span>' +
-          '<span>mean<b>' + fmtDuration(durStats.mean) + '</b></span>' +
-          '<span>p90<b>' + fmtDuration(durStats.p90) + '</b></span>' +
-          '<span>max<b>' + fmtDuration(durStats.max) + '</b></span>'
-        : '<span style="color:var(--bad);">file_durations.json missing &mdash; run <code>python compute_durations.py</code></span>') +
+      '<span>samples<b>' + ft.n_samples + '</b></span>' +
+      '<span>unique videos<b>' + ft.n_unique_videos + '</b></span>' +
+      (durStats ? '<span>total_len<b>' + fmtDuration(durStats.sum) + '</b></span>' +
+        '<span>min<b>' + fmtDuration(durStats.min) + '</b></span>' +
+        '<span>median<b>' + fmtDuration(durStats.median) + '</b></span>' +
+        '<span>mean<b>' + fmtDuration(durStats.mean) + '</b></span>' +
+        '<span>p90<b>' + fmtDuration(durStats.p90) + '</b></span>' +
+        '<span>max<b>' + fmtDuration(durStats.max) + '</b></span>' : '') +
       (currentDur != null
         ? '<span style="color:var(--highlight);">current<b style="color:var(--highlight);">' + fmtDuration(currentDur) + '</b></span>'
         : "");
 
-    const ttKeys = Object.keys(stats.tt).sort((a,b) => stats.tt[b] - stats.tt[a]);
-    const catKeys = Object.keys(stats.cat).sort((a,b) => stats.cat[b] - stats.cat[a]);
-    const abilKeys = Object.keys(stats.abil).sort((a,b) => stats.abil[b] - stats.abil[a]);
-    const totalQ = Object.values(stats.tt).reduce((a,b) => a+b, 0);
-    const totalC = Object.values(stats.cat).reduce((a,b) => a+b, 0);
-
-    let html = '<h2>Statistics &middot; ' + escape(TASKS[taskKey].label) + '</h2>';
+    let html = '<h2>Dataset Statistics &middot; ' + escape(TASKS[taskKey].label) +
+      ' <span style="color:var(--muted);font-weight:400;font-size:12px;">(full benchmark, not subset)</span></h2>';
     html += '<div class="stats-summary">' + sumHtml + '</div>';
     html += '<div class="stats-grid">';
 
     if (durStats) {
-      const sourceLabel = statsSource === "full"
-        ? '<span style="color:var(--muted);font-weight:400;font-size:11px;">(full dataset, n=' + durStats.n + ')</span>'
-        : '<span style="color:var(--muted);font-weight:400;font-size:11px;">(subset only, n=' + durStats.n + ')</span>';
-      html += '<div class="subsection"><h3>Video Length Distribution ' + sourceLabel + '</h3>' +
+      html += '<div class="subsection"><h3>Video Length Distribution ' +
+        '<span style="color:var(--muted);font-weight:400;font-size:11px;">(n=' + durStats.n + ')</span></h3>' +
         renderHist(durStats.counts, BUCKETS.map(b => b.label), '', durStats.n, currentBucket) +
         '</div>';
     } else {
       html += '<div class="subsection"><h3>Video Length Distribution</h3><p class="note">Durations unavailable.</p></div>';
     }
 
-    html += '<div class="subsection"><h3>Sub-Task Types (questions=' + totalQ + ')</h3>' +
-      renderHist(ttKeys.map(k => stats.tt[k]), ttKeys, 'green', totalQ, -1) + '</div>';
-
-    html += '<div class="subsection"><h3>Video Categories (samples=' + totalC + ')</h3>' +
-      renderHist(catKeys.map(k => stats.cat[k]), catKeys, 'purple', totalC, -1) + '</div>';
-
-    html += '<div class="subsection"><h3>Required Ability</h3>' +
-      renderHist(abilKeys.map(k => stats.abil[k]), abilKeys, '', totalQ, -1) + '</div>';
+    if (ttKeys.length) {
+      html += '<div class="subsection"><h3>Sub-Task Types ' +
+        '<span style="color:var(--muted);font-weight:400;font-size:11px;">(questions=' + totalQ + ')</span></h3>' +
+        renderHist(ttKeys.map(k => tt[k]), ttKeys, 'green', totalQ, -1) + '</div>';
+    }
+    if (catKeys.length) {
+      html += '<div class="subsection"><h3>Video Categories ' +
+        '<span style="color:var(--muted);font-weight:400;font-size:11px;">(samples=' + totalC + ')</span></h3>' +
+        renderHist(catKeys.map(k => cat[k]), catKeys, 'purple', totalC, -1) + '</div>';
+    }
+    if (abilKeys.length) {
+      html += '<div class="subsection"><h3>Required Ability</h3>' +
+        renderHist(abilKeys.map(k => abil[k]), abilKeys, '', totalQ, -1) + '</div>';
+    }
 
     html += '</div>';
     panel.innerHTML = html;

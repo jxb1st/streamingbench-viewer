@@ -67,7 +67,49 @@
           0
         ]
       },
-      "n_samples": 2252
+      "n_samples": 2252,
+      "n_unique_videos": 499,
+      "task_type_counts": {
+        "Clips Summarize": 317,
+        "Object Recognition": 367,
+        "Attribute Recognition": 306,
+        "Prospective Reasoning": 108,
+        "Action Recognition": 353,
+        "Spatial Understanding": 246,
+        "Event Understanding": 161,
+        "Counting": 193,
+        "Text-Rich Understanding": 321,
+        "Causal Reasoning": 128
+      },
+      "required_ability_counts": {
+        "episodic memory": 1000,
+        "working memory": 1495,
+        "(none)": 5
+      },
+      "video_category_counts": {
+        "preparation_of_meals": 270,
+        "flying_pov": 100,
+        "math tutorials": 100,
+        "painting": 75,
+        "cooking": 150,
+        "city_walk": 149,
+        "storage_manage": 57,
+        "introduction_to_film": 151,
+        "getting_dressed": 42,
+        "driving": 239,
+        "handcraft": 115,
+        "kids cartoon": 100,
+        "rc_model_competition": 80,
+        "minecraft": 59,
+        "evaluation_of_electronic_products": 99,
+        "live_streams": 119,
+        "art_show": 64,
+        "cycling": 155,
+        "block_building": 38,
+        "football": 56,
+        "(none)": 2,
+        "gym_workout": 32
+      }
     },
     "omni": {
       "unit": "per-sample video duration",
@@ -92,7 +134,50 @@
           0
         ]
       },
-      "n_samples": 1500
+      "n_samples": 1500,
+      "n_unique_videos": 300,
+      "task_type_counts": {
+        "Misleading Context Understanding": 250,
+        "Source Discrimination": 250,
+        "Emotion Recognition": 250,
+        "Anomaly Context Understanding": 250,
+        "Scene Understanding": 250,
+        "Multimodal Alignment": 250
+      },
+      "required_ability_counts": {
+        "working memory": 250,
+        "episodic memory": 1230,
+        "(none)": 20
+      },
+      "video_category_counts": {
+        "online_tutorials": 105,
+        "playing_card": 50,
+        "talk_show": 150,
+        "reaction": 70,
+        "magic_show": 65,
+        "movie": 35,
+        "football": 80,
+        "basketball": 55,
+        "online_course": 80,
+        "cultural_documentary": 25,
+        "tv_series": 135,
+        "house_tour": 45,
+        "celebration_show": 55,
+        "news_report": 25,
+        "science_documentary": 50,
+        "commentary_program": 65,
+        "travel_vlog": 45,
+        "interview": 10,
+        "minecraft": 20,
+        "car_accident": 70,
+        "natural_documentary": 60,
+        "prank_video": 35,
+        "adventure_documentary": 50,
+        "thrilling_moments": 20,
+        "snooker": 50,
+        "boxing": 25,
+        "kids cartoon": 25
+      }
     },
     "sqa": {
       "unit": "per-group video duration",
@@ -117,7 +202,22 @@
           0
         ]
       },
-      "n_samples": 50
+      "n_samples": 50,
+      "n_unique_videos": 50,
+      "task_type_counts": {
+        "Sequential Question Answering": 250
+      },
+      "required_ability_counts": {
+        "episodic memory": 230,
+        "working memory": 20
+      },
+      "video_category_counts": {
+        "table_tennis": 90,
+        "basketball": 100,
+        "tennis": 50,
+        "magic_show": 4,
+        "football": 4
+      }
     },
     "proactive": {
       "unit": "per-sample video duration",
@@ -142,7 +242,23 @@
           0
         ]
       },
-      "n_samples": 248
+      "n_samples": 248,
+      "n_unique_videos": 50,
+      "task_type_counts": {
+        "Proactive Output": 250
+      },
+      "required_ability_counts": {
+        "working memory": 250
+      },
+      "video_category_counts": {
+        "basketball": 25,
+        "playing card": 90,
+        "football": 30,
+        "snooker": 65,
+        "tennis": 30,
+        "kid's cartoon": 5,
+        "playing_card": 3
+      }
     }
   },
   "overall": {
